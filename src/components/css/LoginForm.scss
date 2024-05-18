@@ -1,0 +1,86 @@
+.Login {
+    
+    .Wrapper{
+        margin: 400px auto auto auto;
+        width: 350px;
+        height: 415px;
+        background-color: #d9edf0;
+        box-shadow: 3px 3px 10px gray;
+        border-radius: 5px;
+
+        .title{
+            width: 100%;
+            padding-top: 10px;
+            padding-left: 20px;
+            font-weight: 600;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            & + div{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        .acc_input{
+            padding: 5px;
+            padding-left: 10px;
+            border: none;
+            height: 2rem;
+            font-size: 1.4rem;
+            outline: none;
+            width: 90%;
+            background-color: #d9edf0;
+            border-bottom: 1px solid #c8c8c8;
+            &:focus {
+                color: #929292;
+            }
+            & + .acc_input {
+                margin-top: 10px;
+            }
+        }
+
+        .btn.wrapper{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+
+            .btn.login{
+                width: 200px;
+                height: 45px;
+                font-size: 1rem;
+                margin: 0 auto;
+                margin-top: 20px;
+                cursor: pointer;
+                border: none;
+                background-color: rgba(0, 0, 240, 0.75);
+                font-size: 1.25rem;
+                color: #fff;
+                &:hover{
+                    color: rgba(0, 0, 240, 0.75);
+                    background-color: #fff;
+                }
+            }
+
+            &.register{
+                justify-content: flex-end;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                a {
+                    padding-right: 10px;
+                }
+
+            }
+
+            .btn_sns{
+                display: block;
+                width: 250px;
+                height: 40px;
+                background: rgb(167, 240, 167);
+                text-align: center;
+                line-height: 40px;
+                margin-top: 10px;
+            }
+        }
+    }
+}
