@@ -32,8 +32,9 @@
             width: 90%;
             background-color: #d9edf0;
             border-bottom: 1px solid #c8c8c8;
+            color: rgb(97, 106, 107);
             &:focus {
-                color: #929292;
+                color: #000;
             }
             & + .acc_input {
                 margin-top: 10px;

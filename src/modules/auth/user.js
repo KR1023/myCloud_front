@@ -9,6 +9,7 @@ const LOGIN_FAIL = 'auth/LOGIN_FAIL';
 const LOGOUT = 'auth/LOGOUT';
 
 const TEMP_SET_USER = 'auth/TEMP_SET_USER';
+const INIT_ERROR = 'auth/INIT_ERROR';
 
 export const login = createAction(LOGIN, ({email, password}) => ({
     email,
@@ -19,6 +20,7 @@ export const loginSuccess = createAction(LOGIN_SUCCESS, (user) => user);
 export const loginFail = createAction(LOGIN_FAIL, (error) => error);
 export const logout = createAction(LOGOUT);
 export const tempSetUser = createAction(TEMP_SET_USER, user => user);
+export const initError = createAction(INIT_ERROR);
 
 function* loginSaga(action){
     try{
@@ -74,6 +76,10 @@ const user = handleActions(
         [TEMP_SET_USER]: (state, {payload: user}) => ({
             ...state,
             user
+        }),
+        [INIT_ERROR]: (state) => ({
+            ...state,
+            error: null
         })
     },
     initialState

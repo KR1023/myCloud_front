@@ -1,10 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import RegisterForm from '../../components/auth/RegisterForm';
 import { changeField, register, checkUser } from "../../modules/auth/auth";
+import { initError } from "../../modules/auth/user";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
 
 const RegisterContainer = () => {
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(initError());
+    }, [dispatch]);
+
     const history = useNavigate();
 
     const { form } = useSelector(({auth}) => ({
@@ -14,7 +22,7 @@ const RegisterContainer = () => {
     const onError = useSelector(({auth}) => auth.register.error.message);
     const exists = useSelector(({auth}) => auth.register.exists);
 
-    const dispatch = useDispatch();
+    
 
     const [errEmail, setErrEmail] = useState(null);
     const [errPassword, setErrPassword] = useState(null);

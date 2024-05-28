@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LoginForm from "../../components/auth/LoginForm";
-import { changeField } from "../../modules/auth/auth";
+import { changeField, initializeForm } from "../../modules/auth/auth";
 import { login } from "../../modules/auth/user";
 import { useNavigate } from "react-router-dom";
 
@@ -40,7 +40,10 @@ const LoginComponent = () => {
         const password = form.password;
 
         dispatch(login({email, password}));
-
+        dispatch(initializeForm({form: 'login'}));
+        
+        document.getElementById('login_id').value = '';
+        document.getElementById('login_pw').value = '';
     }
 
     const onConfirm = () => {

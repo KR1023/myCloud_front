@@ -62,8 +62,6 @@ function* registerSaga(action){
     }
 }
 
-
-
 export function* authSaga(){
     yield takeLatest(CHECK_USER, checkUserSaga);
     yield takeLatest(REGISTER, registerSaga);
