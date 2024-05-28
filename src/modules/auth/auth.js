@@ -73,7 +73,6 @@ const initialState = {
     login: {
         email: '',
         password: '',
-        error: null
     },
     register: {
         email: '',
@@ -101,8 +100,7 @@ const auth = handleActions(
         }),
         [REGISTER_ERROR]: (state, { payload: message }) => produce(state, draft => {
             draft.register.error = message;
-        }),
-        
+        })
     },
     initialState
 );

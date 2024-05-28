@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LoginForm from "../../components/auth/LoginForm";
 import { changeField } from "../../modules/auth/auth";
@@ -8,10 +8,15 @@ import { useNavigate } from "react-router-dom";
 const LoginComponent = () => {
     const history = useNavigate();
     const dispatch = useDispatch();
+    const [showModal, setShowModal] = useState(false);
     
     const { form } = useSelector(({auth}) => ({
         form: auth.login
     }));
+
+    const { loginErr } = useSelector(({user}) => ({
+        loginErr: user.error
+    }))
 
     const { user }  = useSelector(({user}) => ({
         user: user.user
@@ -38,7 +43,15 @@ const LoginComponent = () => {
 
     }
 
+    const onConfirm = () => {
+        setShowModal(false);
+    }
+
     useEffect(() => {
+        if(loginErr){
+            setShowModal(true);
+        }
+
         if(user){
             history('/');
             try{
@@ -47,10 +60,11 @@ const LoginComponent = () => {
                 console.error('localStorage is not working...');
             }
         }
-    }, [user, history]);
+    }, [user, history, loginErr]);
 
+    
     return(
-        <LoginForm onChange={onChange} onSubmit={onSubmit}/>
+        <LoginForm onChange={onChange} onSubmit={onSubmit} loginErr={showModal} onConfirm={onConfirm} />
     );
 };
 

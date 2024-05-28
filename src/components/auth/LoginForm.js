@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import '../css/LoginForm.scss';
-import styled from 'styled-components';
+import Modal from '../common/Modal';
 
-const LoginForm = ({ onChange, onSubmit }) => {
+const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
     return(
         <div className='Login'>
             <div className='Wrapper'>
@@ -28,6 +28,10 @@ const LoginForm = ({ onChange, onSubmit }) => {
                     <Link className='btn_sns' to=''>Google 로그인</Link>
                 </div>
             </div>
+            {   loginErr &&
+                    <Modal onConfirm={onConfirm}/>
+            }
+            
         </div>
     );
 };

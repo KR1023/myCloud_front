@@ -53,7 +53,8 @@ export function* userSaga(){
 }
 
 const initialState = {
-    user: null
+    user: null,
+    error: null
 }
 
 const user = handleActions(
@@ -64,10 +65,7 @@ const user = handleActions(
         }),
         [LOGIN_FAIL]: (state, { payload: error}) => ({
             ...state,
-            login: {
-                ...state.login,
-                error
-            }
+            error
         }),
         [LOGOUT]: (state) => ({
             ...state,
