@@ -1,8 +1,15 @@
 import { combineReducers } from "redux";
-import login from "./login/login";
+import auth, { authSaga } from "./auth/auth";
+import user, { userSaga } from "./auth/user";
+import { all } from "redux-saga/effects";
 
 const rootReducer = combineReducers({
-    login
+    auth,
+    user
 });
+
+export function* rootSaga(){
+    yield all([authSaga(), userSaga()]);
+}
 
 export default rootReducer;

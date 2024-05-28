@@ -1,2 +1,2 @@
-### My Cloud
-- Project My Cloud
+### MyCloud
+- MyCloud Frontend Project

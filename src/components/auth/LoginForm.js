@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom';
-import './css/LoginForm.scss';
+import '../css/LoginForm.scss';
 import styled from 'styled-components';
 
-const LoginForm = ({ onChange }) => {
+const LoginForm = ({ onChange, onSubmit }) => {
     return(
         <div className='Login'>
             <div className='Wrapper'>
-                <form method='post'>
+                <form onSubmit={onSubmit}>
                     <div className='title'>My Cloud</div>
                     <div>
-                        <input className='acc_input' name="username" placeholder='아이디' onChange={onChange} />
-                        <input className='acc_input' name="password" placeholder='비밀번호' onChange={onChange} />
+                        <input className='acc_input' name="email" placeholder='이메일' onChange={onChange} />
+                        <input className='acc_input' type="password" name="password" placeholder='비밀번호' onChange={onChange} />
                     </div>
                     <div className='btn wrapper'>
                         <button className='btn login'>로그인</button>

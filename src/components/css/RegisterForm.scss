@@ -1,0 +1,36 @@
+.Register{
+    margin:0 auto;
+    margin-top: 200px;
+    width: 400px;
+    height: 450px;
+    border: solid 1px #c8c8c8;
+    box-sizing: content-box;
+
+    .title{
+        width: 100%;
+        padding: 20px;
+        height: 30px;
+        font-size: 1.25rem;
+    }
+
+    label{
+        margin: 5px;
+        display: block;
+    }
+
+    input {
+        width: 98%;
+        height: 25px;
+    }
+
+    button{
+        margin:20px;
+        width: 50%;
+    }
+
+    .error{
+        color: red;
+        margin-left: 10px;
+        font-size: .95rem;
+    }
+}
