@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import Button from "./Button";
 
 const Background = styled.div`
@@ -18,6 +18,7 @@ const ModalBox = styled.div`
     z-index: 50;
     border: solid 1px #c8c8c8;
     background: rgba(212, 230, 241, .95);
+    animation: 0.3s ease-in-out loadEffect1;
     .content{
         font-size: 1.25rem;
         font-weight: 700;
@@ -29,6 +30,15 @@ const ModalBox = styled.div`
         justify-content: flex-end;
         margin-top: 2rem;
         margin-right: 1rem;
+    }
+
+    @keyframes loadEffect1{
+        0%{
+           opacity: 0; 
+        }
+        100%{
+            opacity: 1;
+        }
     }
 `;
 

@@ -2,10 +2,9 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/LoginForm.scss';
 import Modal from '../common/Modal';
+import { Transition } from 'react-transition-group';
 
 const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
-    const a = useRef();
-
     return(
         <div className='Login'>
             <div className='Wrapper'>
@@ -32,9 +31,10 @@ const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
                 </div>
             </div>
             {   loginErr &&
+                <Transition in={loginErr} timeout={500}>
                     <Modal onConfirm={onConfirm}/>
+                </Transition>
             }
-            
         </div>
     );
 };
