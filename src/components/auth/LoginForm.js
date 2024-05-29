@@ -4,6 +4,11 @@ import Modal from '../common/Modal';
 import { Transition } from 'react-transition-group';
 
 const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
+
+    const toGoogle = () => {
+        window.open('http://localhost:4000/auth/google/', "_self");
+    };
+
     return(
         <div className='Login'>
             <div className='Wrapper'>
@@ -26,7 +31,8 @@ const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
                     <Link className='btn_sns' to=''>Kakao 로그인</Link>
                 </div>
                 <div className='btn wrapper'>
-                    <Link className='btn_sns' to=''>Google 로그인</Link>
+                    <button className='btn_sns' onClick={toGoogle}>Google 로그인</button>
+                    {/* <Link className='btn_sns' to='/login/google'>Google 로그인</Link> */}
                 </div>
             </div>
             {   loginErr &&

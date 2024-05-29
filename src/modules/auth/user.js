@@ -6,6 +6,8 @@ const LOGIN = 'auth/LOGIN'
 const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'auth/LOGIN_FAIL';
 
+const GOOGLE_LOGIN = 'auth/GOOGLE_LOGIN';
+
 const LOGOUT = 'auth/LOGOUT';
 
 const TEMP_SET_USER = 'auth/TEMP_SET_USER';
@@ -15,7 +17,7 @@ export const login = createAction(LOGIN, ({email, password}) => ({
     email,
     password
 }));
-
+export const googleLogin = createAction(GOOGLE_LOGIN);
 export const loginSuccess = createAction(LOGIN_SUCCESS, (user) => user);
 export const loginFail = createAction(LOGIN_FAIL, (error) => error);
 export const logout = createAction(LOGOUT);
@@ -60,7 +62,11 @@ const initialState = {
 }
 
 const user = handleActions(
-    {
+    {   
+        [GOOGLE_LOGIN]: (state, { payload: user}) => ({
+            ...state,
+            user
+        }),
         [LOGIN_SUCCESS]: (state, { payload: user}) => ({
             ...state,
             user

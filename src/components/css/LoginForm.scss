@@ -11,9 +11,9 @@
     .Wrapper{
         width: 350px;
         height: 415px;
-        background-color: #d9edf0;
+        background-color: rgba(193, 229, 245);
         box-shadow: 3px 3px 10px gray;
-        border-radius: 5px;
+        border-radius: 10px;
 
         .title{
             width: 100%;
@@ -37,8 +37,8 @@
             font-size: 1.4rem;
             outline: none;
             width: 90%;
-            background-color: #d9edf0;
-            border-bottom: 1px solid #c8c8c8;
+            background-color: rgba(193, 229, 245);
+            border-bottom: 1px solid #b6b6b6;
             color: rgb(97, 106, 107);
             &:focus {
                 color: #000;
@@ -54,14 +54,15 @@
             justify-content: center;
 
             .btn.login{
-                width: 200px;
-                height: 45px;
+                width: 125px;
+                height: 40px;
                 font-size: 1rem;
                 margin: 0 auto;
                 margin-top: 20px;
                 cursor: pointer;
                 border: none;
-                background-color: rgba(0, 0, 240, 0.75);
+                border-radius: 7px;
+                background-color: rgba(78, 149, 217);
                 font-size: 1.25rem;
                 color: #fff;
                 &:hover{
@@ -72,10 +73,14 @@
 
             &.register{
                 justify-content: flex-end;
-                margin-top: 20px;
+                margin-top: 10px;
                 margin-bottom: 20px;
                 a {
                     padding-right: 10px;
+                    font-weight: 500;
+                    &:hover{
+                        color: white;
+                    }
                 }
 
             }

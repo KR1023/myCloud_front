@@ -7,3 +7,5 @@ export const login = ({email, password}) => client.post('/auth/login', {email, p
 export const checkDuplicate = ({email}) => client.get(`/user/${email}`);
 
 export const logout = () => client.get('/auth/logout');
+
+export const checkAuth = () => client.get('/auth/check-auth');

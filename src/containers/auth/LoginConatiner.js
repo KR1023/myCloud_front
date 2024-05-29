@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LoginForm from "../../components/auth/LoginForm";
 import { changeField, initializeForm } from "../../modules/auth/auth";
-import { login } from "../../modules/auth/user";
+import { googleLogin, login } from "../../modules/auth/user";
 import { useNavigate } from "react-router-dom";
+import * as authAPI from '../../lib/api/auth';
+import axios from 'axios';
 
-const LoginComponent = () => {
+const LoginContainer = () => {
     const history = useNavigate();
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
@@ -21,6 +23,20 @@ const LoginComponent = () => {
     const { user }  = useSelector(({user}) => ({
         user: user.user
     }))
+
+    const getUser = useCallback(async () => {
+        try{
+            // const url = 'http://localhost:4000/auth/check-auth'
+            // const { data } = await axios.get(url, { withCredentials : true});
+
+            // 백엔드 서버에서 CORS 설정을 하지 않았다면...
+            const { data } = await authAPI.checkAuth(); 
+            dispatch(googleLogin(data));
+            localStorage.setItem('user', JSON.stringify(data));
+        }catch(e){
+            console.error(e);
+        }
+    }, [dispatch]);
 
     const onChange = e => {
         const { value, name } = e.target;
@@ -51,6 +67,8 @@ const LoginComponent = () => {
     }
 
     useEffect(() => {
+        getUser();
+
         if(loginErr){
             setShowModal(true);
         }
@@ -63,7 +81,7 @@ const LoginComponent = () => {
                 console.error('localStorage is not working...');
             }
         }
-    }, [user, history, loginErr]);
+    }, [user, history, loginErr, getUser]);
 
     
     return(
@@ -71,4 +89,4 @@ const LoginComponent = () => {
     );
 };
 
-export default LoginComponent;
+export default LoginContainer;

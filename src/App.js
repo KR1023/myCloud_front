@@ -9,7 +9,9 @@ const App = () => {
         <div>
             <Routes>
                 <Route path='/' element={<HomeContainer />} />
-                <Route path='/login' element={<LoginConatiner />} />
+                <Route path='/login'  >
+                        <Route index element={<LoginConatiner />} />
+                </Route>
                 <Route path='/register' element={<RegisterContainer/>} />
             </Routes>
         </div>
