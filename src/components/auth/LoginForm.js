@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import '../css/LoginForm.scss';
 import Modal from '../common/Modal';
 import { Transition } from 'react-transition-group';
+import logo from '../../images/myCloud_logo3.png';
 
 const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
 
@@ -13,10 +14,10 @@ const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
         <div className='Login'>
             <div className='Wrapper'>
                 <form onSubmit={onSubmit}>
-                    <div className='title'>My Cloud</div>
+                    <div className='title'><img src={logo} alt='logo' width="50" height="50"/><span>MyCloud</span></div>
                     <div>
-                        <input id='login_id' className='acc_input' name="email" placeholder='이메일' onChange={onChange} />
-                        <input id='login_pw' className='acc_input' type="password" name="password" placeholder='비밀번호' onChange={onChange} />
+                        <input id='login_id' className='acc_input' name="email" placeholder='이메일' onChange={onChange} maxLength="50"/>
+                        <input id='login_pw' className='acc_input' type="password" name="password" placeholder='비밀번호' onChange={onChange} maxLength="30" />
                     </div>
                     <div className='btn wrapper'>
                         <button className='btn login'>로그인</button>

@@ -7,25 +7,32 @@
     left: 0;
     justify-content: center;
     align-items: center;
+    // background-color: #61CBF4;
+    background: linear-gradient(#61CBF4 70%, #fff);
 
     .Wrapper{
-        width: 350px;
-        height: 415px;
-        background-color: rgba(193, 229, 245);
+        width: 400px;
+        height: 450px;
+        background-color: rgba(251, 252, 252, 1);
         box-shadow: 3px 3px 10px gray;
-        border-radius: 10px;
+        border-radius: 25px;
 
         .title{
+            display: flex;
+            align-items: center;
             width: 100%;
-            padding-top: 10px;
-            padding-left: 20px;
+            height: 50px;
+            padding: 5%;
             font-weight: 600;
             font-size: 1.75rem;
-            margin-bottom: 1rem;
             & + div{
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
+            }
+            span{
+                margin-left: 10px;
+                font-size: 2.3rem;
             }
         }
 
@@ -37,11 +44,13 @@
             font-size: 1.4rem;
             outline: none;
             width: 90%;
-            background-color: rgba(193, 229, 245);
+            /*background-color: rgba(193, 229, 245);*/
+            background-color: rgba(251, 252, 252, 1);
             border-bottom: 1px solid #b6b6b6;
             color: rgb(97, 106, 107);
             &:focus {
                 color: #000;
+                background-color: rgba(253, 254, 254, 1);
             }
             & + .acc_input {
                 margin-top: 10px;
