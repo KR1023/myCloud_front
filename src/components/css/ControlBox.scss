@@ -1,0 +1,32 @@
+.info_box{
+    position: fixed;
+    right:30px;
+    top: 50px;
+    width: 90px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(248, 249, 249, .8);
+    border: 0px solid #C8C8C8;
+    border-radius: 5px;
+    z-index: 10;
+
+    .wrapper{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        span{
+            display: block;
+            height:25px;
+            cursor: pointer;
+            font-weight: 600;
+            &:hover{
+                color: #2471A3;
+                font-weight: 800;
+            }
+        }
+    }
+}

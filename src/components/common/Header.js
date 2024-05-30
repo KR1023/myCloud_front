@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/Header.scss';
 import styled from 'styled-components';
+import ControlBox from './ControlBox';
+import logo from '../../images/myCloud_logo3.png';
 
 const Spacer = styled.div`
     height: 4rem;
@@ -9,31 +12,34 @@ const Spacer = styled.div`
 const Header = ({user, onLogout}) => {
     const history = useNavigate();
 
-    const onClick = e => {
-        // if(to){
-        //     history(to);
-        // }
-        history('/login');
+    const [showControl, setShowControl] = useState(false);
 
+    const showControlBox = () => {
+        setShowControl(!showControl);
+    };
+
+    const mouseOut = e => {
+        setShowControl(false);
     }
     
     return (
         <>
             <div className="header">
-                <div className='logo'>MyCloud</div>
-                <div className="login">
-                    { user ? (
-                        <div className="right">
-                            <span className="username">{user.username}</span>
-                            <button onClick={onLogout}>로그아웃</button>
-                        </div>
-                    ) : (
-                        <button onClick={onClick}>로그인</button>
-                    )
-
-                    }
-                    
+                <div className='logo'>
+                    <img src={logo} alt="logo" width="30" height="30"/>
+                    <span>MyCloud</span>
                 </div>
+                <div className="login">
+                    { user && (
+                        <div className="right">
+                            <span className="username" onClick={showControlBox}>{user.username}</span>
+                        </div>
+                    )
+                    }
+                </div>
+                {   showControl &&
+                    <ControlBox onLogout={onLogout}/>    
+                }
             </div>
             <Spacer />
         </>

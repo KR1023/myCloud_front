@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Home from "../../components/Home"
+import Home from "../../components/main/Home"
 import { useSelector, useDispatch} from 'react-redux';
 import { useEffect } from "react";
 
