@@ -13,23 +13,31 @@ const Background = styled.div`
     background-color: rgba(255, 255, 255, 0.3);
 `;
 const ModalBox = styled.div`
-    width: 400px;
+    width: 380px;
     height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     z-index: 50;
     border: solid 1px #c8c8c8;
-    background: rgba(212, 230, 241, .95);
+    border-radius: 15px;
+    background: rgba(248, 249, 249);
     animation: 0.3s ease-in-out loadEffect1;
+
     .content{
+        width: 100%;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
         font-size: 1.25rem;
         font-weight: 700;
-        text-align: center;
-        margin-top: 1rem;
     }
-    .btnContainer{
+    .btn_container{
         display: flex;
-        justify-content: flex-end;
-        margin-top: 2rem;
-        margin-right: 1rem;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 15px;
     }
 
     @keyframes loadEffect1{
@@ -42,12 +50,12 @@ const ModalBox = styled.div`
     }
 `;
 
-const Modal = ({onConfirm}) => {
+const Modal = ({onConfirm, message}) => {
     return(
         <Background>
             <ModalBox>
-                <div className="content">아이디와 비밀번호를 확인해 주세요.</div>
-                <div className="btnContainer">
+                <div className="content"><span>{message}</span></div>
+                <div className="btn_container">
                     <Button onClick={onConfirm}>확인</Button>
                 </div>
             </ModalBox>

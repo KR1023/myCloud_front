@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import RegisterForm from '../../components/auth/RegisterForm';
-import { changeField, register, checkUser } from "../../modules/auth/auth";
+import { changeField, register, checkUser, initializeForm } from "../../modules/auth/auth";
 import { initError } from "../../modules/auth/user";
 import { useNavigate } from "react-router-dom";
-import { useCallback, useState } from "react";
+
 
 const RegisterContainer = () => {
     const dispatch = useDispatch();
@@ -14,6 +14,10 @@ const RegisterContainer = () => {
     }, [dispatch]);
 
     const history = useNavigate();
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [regDone, setRegDone] = useState(false);
 
     const { form } = useSelector(({auth}) => ({
         form: auth.register
@@ -28,6 +32,21 @@ const RegisterContainer = () => {
     const [errPassword, setErrPassword] = useState(null);
     const [errPassConfirm, setErrPassConfirm] = useState(null);
     const [errUsername, setErrUsername] = useState(null);
+
+    const onConfirm = () => {
+        setShowModal(false);
+        if(regDone){
+            dispatch(initializeForm({form: 'register'}));
+            setErrEmail(null);
+            setErrPassword(null);
+            setErrPassConfirm(null);
+            setErrUsername(null);
+            setShowModal(false);
+            setModalMessage('');
+            setRegDone(false);
+            history('/login');
+        }
+    }
 
     const onChange = e => {
         const { value, name} = e.target;
@@ -86,23 +105,29 @@ const RegisterContainer = () => {
         const { email, password, passConfirm, username } = form;
 
         if(errEmail !== null || !email || exists){
-            alert('이메일을 확인해 주세요.');
+            // alert('이메일을 확인해 주세요.');
+            setModalMessage('이메일을 확인해 주세요.');
+            setShowModal(true);
             return;
         }else if(errPassword !== null || errPassConfirm !== null || !password || !passConfirm){
-            alert('비밀번호를 확인해 주세요.');
+            // alert('비밀번호를 확인해 주세요.');
+            setShowModal(true);
+            setModalMessage('비밀번호를 확인해 주세요.');
             return;
         }else if(errUsername !== null || !username){
-            alert('이름을 확인해 주세요.');
+            // alert('이름을 확인해 주세요.');
+            setShowModal(true);
+            setModalMessage('이름을 확인해 주세요.');
             return;
-        }else if(!email){
-            
         }
         
         dispatch(register({email, password, username}));
 
         if(!onError){
-            alert('회원 가입 성공');
-            history('/login');
+            setShowModal(true);
+            setModalMessage('회원가입이 완료되었습니다. 로그인해 주세요.');
+            setRegDone(true);
+            // history('/login');
         }
 
     }
@@ -118,6 +143,9 @@ const RegisterContainer = () => {
             errPassword={errPassword}
             errPassConfirm={errPassConfirm}
             errUsername={errUsername}
+            onConfirm={onConfirm}
+            registerErr={showModal}
+            modalMessage={modalMessage}
         />
     );
 };

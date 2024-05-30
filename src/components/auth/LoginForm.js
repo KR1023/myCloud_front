@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import '../css/LoginForm.scss';
 import Modal from '../common/Modal';
-import { Transition } from 'react-transition-group';
 import logo from '../../images/myCloud_logo3.png';
+import kakao from '../../images/login/kakao.png';
+import google from '../../images/login/google_2.png';
 
 const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
 
@@ -10,12 +11,16 @@ const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
         window.open('http://localhost:4000/auth/google/', "_self");
     };
 
+    const toKakao = () => {
+        window.open('http://localhost:4000/auth/kakao/', "_self");
+    };
+
     return(
         <div className='Login'>
             <div className='Wrapper'>
                 <form onSubmit={onSubmit}>
                     <div className='title'><img src={logo} alt='logo' width="50" height="50"/><span>MyCloud</span></div>
-                    <div>
+                    <div className='inputWrapper'>
                         <input id='login_id' className='acc_input' name="email" placeholder='이메일' onChange={onChange} maxLength="50"/>
                         <input id='login_pw' className='acc_input' type="password" name="password" placeholder='비밀번호' onChange={onChange} maxLength="30" />
                     </div>
@@ -28,18 +33,17 @@ const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm}) => {
                 </div>
                 
                 <hr />
-                <div className='btn wrapper'>
-                    <Link className='btn_sns' to=''>Kakao 로그인</Link>
+                <div className='btn wrapper sns'>
+                    <button id='btn_kakao' className='btn_sns' onClick={toKakao}><img src={kakao} alt="kakao" width="30" height="30" /><span>kakao로 로그인</span></button>
+                    <button id='btn_google' className='btn_sns' onClick={toGoogle}><img src={google} alt="google" width="28" height="28" /> <span>Google로 로그인</span></button>
                 </div>
                 <div className='btn wrapper'>
-                    <button className='btn_sns' onClick={toGoogle}>Google 로그인</button>
+                    
                     {/* <Link className='btn_sns' to='/login/google'>Google 로그인</Link> */}
                 </div>
             </div>
             {   loginErr &&
-                <Transition in={loginErr} timeout={500}>
-                    <Modal onConfirm={onConfirm}/>
-                </Transition>
+                <Modal onConfirm={onConfirm} message="아이디와 비밀번호를 확인해 주세요."/>
             }
         </div>
     );

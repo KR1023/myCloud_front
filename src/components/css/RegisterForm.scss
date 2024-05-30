@@ -1,36 +1,103 @@
 .Register{
-    margin:0 auto;
-    margin-top: 200px;
-    width: 400px;
-    height: 450px;
-    border: solid 1px #c8c8c8;
-    box-sizing: content-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(#61CBF4 70%, #fff);
 
-    .title{
-        width: 100%;
-        padding: 20px;
-        height: 30px;
-        font-size: 1.25rem;
+    .Wrapper{
+        width: 450px;
+        height: 680px;
+        border: solid 1px #c8c8c8;
+        background-color: rgba(251, 252, 252, 1);
+        box-shadow: 3px 3px 10px gray;
+        border-radius: 25px;
+
+        .title{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            padding: 5%;
+            font-weight: 600;
+            & + div{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            span{
+                margin-left: 10px;
+                font-size: 1.5rem;
+            }
+        }
+
+        label{
+            margin: 5px;
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .input_wrapper{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        input {
+            padding: 5px;
+            padding-left: 10px;
+            border: none;
+            height: 2rem;
+            font-size: 1.4rem;
+            outline: none;
+            width: 90%;
+            /*background-color: rgba(193, 229, 245);*/
+            background-color: rgba(251, 252, 252, 1);
+            border-bottom: 1px solid #b6b6b6;
+            color: rgb(97, 106, 107);
+            &:focus {
+                color: #000;
+                background-color: rgba(253, 254, 254, 1);
+            }
+        }
+
+        .err_message{
+            width: 100%;
+            height: 30px;
+            margin-top: 5px;
+            .error{
+                color: red;
+                margin-left: 10px;
+                font-size: .95rem;
+                font-weight: 600;
+            }
+        }
+
+        .btn_wrapper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .link_wrapper{
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 20px;
+            margin-right: 20px;
+            a{
+                font-size: 1.25rem;
+                font-weight: 500;
+            }
+        }
     }
 
-    label{
-        margin: 5px;
-        display: block;
-    }
-
-    input {
-        width: 98%;
-        height: 25px;
-    }
-
-    button{
-        margin:20px;
-        width: 50%;
-    }
-
-    .error{
-        color: red;
-        margin-left: 10px;
-        font-size: .95rem;
-    }
 }
