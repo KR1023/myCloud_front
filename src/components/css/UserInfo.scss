@@ -1,0 +1,84 @@
+.user_info{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(#61CBF4 70%, #fff);
+    .wrapper{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        
+        .userinfo_box{
+            width: 400px;
+            height: 550px;
+            background: rgba(248, 249, 249);
+            border-radius: 15px;
+            box-shadow: 5px 5px 2px rgba(179, 182, 183, .8);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            .title{
+                width: 100%;
+                height: 20px;
+                span{
+                    margin-left: 20px;
+                    font-weight: 700;
+                    font-size: 1.25rem;
+                }
+            }
+
+            .width_wrap{
+                width: 100%;
+                
+    
+                .attr_box{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    label{
+                        width: 100%;
+                        height: 25px;
+                        margin: 10px 5px 0px 15px;
+                        display: block;
+                        font-size: 1.25rem;
+                        font-weight: 600;
+                    }
+                    input{
+                        width: 100%;
+                        padding: 5px;
+                        padding-left: 10px;
+                        border: none;
+                        height: 2rem;
+                        font-size: 1.4rem;
+                        outline: none;
+                        width: 90%;
+                        /*background-color: rgba(193, 229, 245);*/
+                        background-color: rgba(248, 249, 249);
+                        border-bottom: 1px solid #b6b6b6;
+                        color: rgb(97, 106, 107);
+                        &:focus {
+                            color: #000;
+                            // background-color: rgba(253, 254, 254, 1);
+                        }
+                    }
+                }
+
+                .btn_wrapper{
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-top: 20px;
+                    button{
+                        margin-right: 15px;
+                    }
+                }
+            }
+            
+        }
+    }
+}

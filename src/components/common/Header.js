@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import '../css/Header.scss';
 import styled from 'styled-components';
 import ControlBox from './ControlBox';
@@ -26,8 +26,10 @@ const Header = ({user, onLogout}) => {
         <>
             <div className="header">
                 <div className='logo'>
-                    <img src={logo} alt="logo" width="30" height="30"/>
-                    <span>MyCloud</span>
+                    <Link to="/">
+                        <img src={logo} alt="logo" width="30" height="30"/>
+                        <span>MyCloud</span>
+                    </Link>
                 </div>
                 <div className="login">
                     { user && (

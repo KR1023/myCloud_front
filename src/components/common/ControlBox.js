@@ -1,4 +1,5 @@
-    import '../css/ControlBox.scss';
+    import { Link } from 'react-router-dom';
+import '../css/ControlBox.scss';
 
 const ControlBox = ({mouseOut, onLogout}) => {
 
@@ -10,7 +11,7 @@ const ControlBox = ({mouseOut, onLogout}) => {
     return(
         <div className="info_box" onMouseOut={mouseOut}>
             <div className="wrapper">
-                <span>회원 정보</span>
+                <span><Link to="/user-info">회원 정보</Link></span>
                 <span onClick={onLogout}>로그아웃</span>
             </div>
         </div>

@@ -11,6 +11,7 @@
     border: 0px solid #C8C8C8;
     border-radius: 5px;
     z-index: 10;
+    animation: 0.3s ease-in-out loadEffect1;
 
     .wrapper{
         width: 100%;
@@ -27,6 +28,15 @@
                 color: #2471A3;
                 font-weight: 800;
             }
+        }
+    }
+
+    @keyframes loadEffect1{
+        0%{
+           opacity: 0; 
+        }
+        100%{
+            opacity: 1;
         }
     }
 }
