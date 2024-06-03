@@ -13,8 +13,8 @@
         align-items: center;
         
         .userinfo_box{
-            width: 400px;
-            height: 550px;
+            width: 480px;
+            height: 600px;
             background: rgba(248, 249, 249);
             border-radius: 15px;
             box-shadow: 5px 5px 2px rgba(179, 182, 183, .8);
@@ -67,6 +67,11 @@
                             // background-color: rgba(253, 254, 254, 1);
                         }
                     }
+
+                    .err_message{
+                        color: red;
+                        align-self: flex-start;
+                    }
                 }
 
                 .btn_wrapper{
@@ -78,6 +83,8 @@
                     }
                 }
             }
+
+              
             
         }
     }

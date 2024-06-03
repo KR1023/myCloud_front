@@ -26,8 +26,6 @@ const RegisterContainer = () => {
     const onError = useSelector(({auth}) => auth.register.error.message);
     const exists = useSelector(({auth}) => auth.register.exists);
 
-    
-
     const [errEmail, setErrEmail] = useState(null);
     const [errPassword, setErrPassword] = useState(null);
     const [errPassConfirm, setErrPassConfirm] = useState(null);

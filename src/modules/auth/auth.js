@@ -12,6 +12,9 @@ const CHECK_DUP = 'auth/CHECK_DUP';
 const REGISTER = 'auth/REGISTER';
 const REGISTER_ERROR = 'auth/REGISTER_ERROR';
 
+const SESSION_CHECK = 'auth/SESSION_CHECK';
+const SESSION_STATUS = 'auth/SESSION_STATUS';
+
 export const changeField = createAction(CHANGE_FIELD, 
     ({ form, key, value }) => ({
         form,
@@ -38,7 +41,8 @@ export const registerError = createAction(REGISTER_ERROR, ({message}) => ({
     message
 }));
 
-
+export const sessionCheck = createAction(SESSION_CHECK);
+export const sessionStatus = createAction(SESSION_STATUS);
 
 
 function* checkUserSaga(action){
@@ -62,9 +66,24 @@ function* registerSaga(action){
     }
 }
 
+function* sessionCheckSaga(action){
+    try{
+        const response = yield call(authAPI.checkAuth);
+        if(response.status === 200){
+            yield put(sessionStatus(true));
+        }
+    }catch(e){
+        console.error(e.response);
+        localStorage.removeItem('user');
+        yield put(sessionStatus(false));
+            
+    }
+}
+
 export function* authSaga(){
     yield takeLatest(CHECK_USER, checkUserSaga);
     yield takeLatest(REGISTER, registerSaga);
+    yield takeLatest(SESSION_CHECK, sessionCheckSaga);
 }
 
 const initialState = {
@@ -81,7 +100,8 @@ const initialState = {
         error: {
             message: null
         }
-    }
+    },
+    session: false
 };
 
 const auth = handleActions(
@@ -98,6 +118,10 @@ const auth = handleActions(
         }),
         [REGISTER_ERROR]: (state, { payload: message }) => produce(state, draft => {
             draft.register.error = message;
+        }),
+        [SESSION_STATUS]: (state, { payload: stat}) => ({
+            ...state,
+            session: stat
         })
     },
     initialState
