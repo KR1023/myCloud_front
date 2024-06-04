@@ -50,6 +50,23 @@ const LoginContainer = () => {
         );
     };
 
+    const onChangeCheckbox = e => {
+        const checked = e.target.checked;
+        const email = document.getElementById('login_id').value;
+
+        if(checked){
+            console.log(email, checked);
+            const date = new Date();
+            date.setDate(date.getDate() + 7);
+            console.log(date);
+            document.cookie = `saved_email=${email};expires=${date.toGMTString()};path=/`;
+        }else if(!checked){
+            console.log('false');
+            const date = new Date();
+            document.cookie = `saved_email='';expires=${date}`;
+        }
+    }
+
     const onSubmit = e => {
         e.preventDefault();
         const email = form.email;
@@ -67,6 +84,17 @@ const LoginContainer = () => {
     }
 
     useEffect(() => {
+        const checkbox = document.getElementById('save_id');
+        const cookie = document.cookie;
+        if(cookie && cookie.length > 14){
+            checkbox.checked = true;
+            const cookieLength = cookie.length; 
+            const userEmail = cookie.substring(12, cookieLength);
+
+            document.getElementById('login_id').value = userEmail;
+            dispatch(changeField({form: 'login', key: 'email', value: userEmail}));
+        }
+
         getUser();
 
         if(loginErr){
@@ -81,11 +109,11 @@ const LoginContainer = () => {
                 console.error('localStorage is not working...');
             }
         }
-    }, [user, history, loginErr, getUser]);
+    }, [user, history, loginErr, getUser, dispatch]);
 
     
     return(
-        <LoginForm onChange={onChange} onSubmit={onSubmit} loginErr={showModal} onConfirm={onConfirm} />
+        <LoginForm onChange={onChange} onSubmit={onSubmit} loginErr={showModal} onConfirm={onConfirm} onChangeCheckbox={onChangeCheckbox} />
     );
 };
 
