@@ -5,7 +5,7 @@ import returnDateString from '../../lib/returnDateString';
 import Modal from '../common/Modal';
 
 
-const UserInfo = ({user, updateUserInfo, form, errForm, onChangeForm, onBlurForm, showModal, modalMsg, closeModal, submitUpdate}) => {
+const UserInfo = ({user, updateUserInfo, form, errForm, onChangeForm, onBlurForm, showModal, modalMsg, modalType, closeModal, submitUpdate, withdrawal, proceedWithdrawal}) => {
     const createdDt = returnDateString(user.createdDt);
 
     
@@ -53,13 +53,14 @@ const UserInfo = ({user, updateUserInfo, form, errForm, onChangeForm, onBlurForm
                         </form>
                         <div className="btn_wrapper">
                             <Button onClick={submitUpdate}>정보변경</Button>
-                            <Button>회원탈퇴</Button>
+                            <Button onClick={withdrawal}>회원탈퇴</Button>
                         </div>
                     </div>
                 </div>
             </div>
+            
             { showModal &&
-                <Modal onConfirm={closeModal} message={modalMsg} />
+                <Modal onConfirm={closeModal} message={modalMsg} type={modalType} proceed={proceedWithdrawal}/>
             }
         </div>
     );

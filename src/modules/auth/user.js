@@ -19,6 +19,8 @@ const UPDATE_USERINFO = 'user/UPDATE_USERINFO';
 const UPDATE_MESSAGE = 'user/UPDATE_MESSAGE';
 const UPDATE_ERROR = 'user/UPDATE_ERROR';
 
+const WITHDRAWAL = 'user/WITHDRAWAL';
+
 
 export const login = createAction(LOGIN, ({email, password}) => ({
     email,
@@ -33,6 +35,7 @@ export const initError = createAction(INIT_ERROR);
 export const updateUserinfo = createAction(UPDATE_USERINFO, (form) => form);
 export const updateMessage = createAction(UPDATE_MESSAGE, message => message);
 export const updateError = createAction(UPDATE_ERROR);
+export const withdrawal = createAction(WITHDRAWAL, user => user);
 
 function* loginSaga(action){
     try{
@@ -75,10 +78,24 @@ function* updateUserinfoSaga(action){
     }
 }
 
+function* withdrawalSaga(action){
+    try{
+        const response = yield call(userAPI.withdrawal, action.payload);
+        console.log(response);
+        if(response.status === 200){
+            yield put(tempSetUser(null));
+            localStorage.removeItem('user');
+        }
+    }catch(e){
+        console.error(e);
+    }
+}
+
 export function* userSaga(){
     yield takeLatest(LOGIN, loginSaga);
     yield takeLatest(LOGOUT, logoutSaga);
     yield takeLatest(UPDATE_USERINFO, updateUserinfoSaga);
+    yield takeLatest(WITHDRAWAL, withdrawalSaga);
 }
 
 const initialState = {

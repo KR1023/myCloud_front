@@ -50,13 +50,22 @@ const ModalBox = styled.div`
     }
 `;
 
-const Modal = ({onConfirm, message}) => {
+const Modal = ({type = 'info', onConfirm, proceed,  message}) => {
     return(
         <Background>
             <ModalBox>
                 <div className="content"><span>{message}</span></div>
                 <div className="btn_container">
-                    <Button onClick={onConfirm}>확인</Button>
+                    {
+                        type === 'info' && 
+                        <Button onClick={onConfirm}>확인</Button>
+                    }
+                    { type !== 'info' &&
+                        <Button onClick={proceed}>확인</Button>
+                    }
+                    { type !== 'info' &&
+                        <Button onClick={onConfirm}>취소</Button>
+                    }
                 </div>
             </ModalBox>
         </Background>

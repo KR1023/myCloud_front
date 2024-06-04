@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import UserInfo from "../../components/main/UserInfo"
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserinfo, updateMessage } from "../../modules/auth/user";
+import { updateUserinfo, updateMessage, withdrawal } from "../../modules/auth/user";
 
 const UserInfoContainer = () => {
     const dispatch = useDispatch();
@@ -27,7 +27,8 @@ const UserInfoContainer = () => {
     const [modalOption, setModalOption] = useState(
         {
             show: false,
-            message: null
+            message: null,
+            type: 'info2'
         }
     );
 
@@ -62,8 +63,14 @@ const UserInfoContainer = () => {
         }
     );
 
+    const proceedWithdrawal = () => {
+        dispatch(withdrawal(user.email));
+        console.log('회원탈퇴');
+        setModalOption({message: null, show: false});
+    }
+
     const closeModal = () => {
-        setModalOption({messaeg: null, show: false});
+        setModalOption({message: null, show: false});
         dispatch(updateMessage(null));
     }
 
@@ -124,7 +131,12 @@ const UserInfoContainer = () => {
             return;
         }
         updateUserInfo(form);
-    }
+    };
+    
+    const onWithdrawal = () => {
+        setModalOption({ type: 'confirm', show: true, message: `탈퇴 시 모든 데이터가 삭제됩니다. 정말 탈퇴하시겠습니까?`});
+    };
+
 
     return(
         <div>
@@ -137,8 +149,11 @@ const UserInfoContainer = () => {
                     onChangeForm={onChangeForm} 
                     onBlurForm={onBlurForm}
                     submitUpdate={submitUpdate}
+                    withdrawal={onWithdrawal}
                     showModal={modalOption.show} 
                     modalMsg={modalOption.message} 
+                    modalType={modalOption.type}
+                    proceedWithdrawal={proceedWithdrawal}
                     closeModal={closeModal} />
             }
         </div>
