@@ -5,10 +5,8 @@ import returnDateString from '../../lib/returnDateString';
 import Modal from '../common/Modal';
 
 
-const UserInfo = ({user, updateUserInfo, form, errForm, onChangeForm, onBlurForm, showModal, modalMsg, modalType, closeModal, submitUpdate, withdrawal, proceedWithdrawal}) => {
+const UserInfo = ({user, form, errForm, onChangeForm, onBlurForm, showModal, modalMsg, modalType, closeModal, submitUpdate, withdrawal, proceedWithdrawal}) => {
     const createdDt = returnDateString(user.createdDt);
-
-    
     
     return(
         <div className="user_info">
