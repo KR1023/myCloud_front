@@ -53,10 +53,8 @@ const LoginContainer = () => {
         const email = document.getElementById('login_id').value;
 
         if(checked){
-            console.log(email, checked);
             const date = new Date();
             date.setDate(date.getDate() + 7);
-            console.log(date);
             document.cookie = `saved_email=${email};expires=${date.toGMTString()};path=/`;
         }else if(!checked){
             console.log('false');
@@ -73,13 +71,11 @@ const LoginContainer = () => {
         const password = form.password;
 
         if(checked){
-            console.log(email, checked);
             const date = new Date();
             date.setDate(date.getDate() + 7);
-            console.log(date);
             document.cookie = `saved_email=${email};expires=${date.toGMTString()};path=/`;
         }
-        
+
         dispatch(login({email, password}));
         dispatch(initializeForm({form: 'login'}));
         
