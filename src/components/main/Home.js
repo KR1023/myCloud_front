@@ -34,15 +34,15 @@ const Home = () => {
                 </div>
             </div>
             {   wType === 'memo' &&
-                <Workspace title="메모" closeWorkspace={closeWorkspace} />
+                <Workspace title="memo" closeWorkspace={closeWorkspace} />
             }
             {
                 wType === 'photo' &&
-                <Workspace title="사진" closeWorkspace={closeWorkspace} />
+                <Workspace title="photo" closeWorkspace={closeWorkspace} />
             }
             {
                 wType === 'explorer' &&
-                <Workspace title="탐색기" closeWorkspace={closeWorkspace} />
+                <Workspace title="explorer" closeWorkspace={closeWorkspace} />
             }
             
         </div>
