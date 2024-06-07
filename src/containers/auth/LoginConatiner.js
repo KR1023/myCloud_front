@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LoginForm from "../../components/auth/LoginForm";
 import { changeField, initializeForm } from "../../modules/auth/auth";
-import { googleLogin, login } from "../../modules/auth/user";
+import { googleLogin, login, loginFail } from "../../modules/auth/user";
 import { useNavigate } from "react-router-dom";
 import * as authAPI from '../../lib/api/auth';
 import axios from 'axios';
@@ -11,16 +11,14 @@ const LoginContainer = () => {
     const history = useNavigate();
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
+    const [modalMsg, setModalMsg] = useState(null);
     
     const { form } = useSelector(({auth}) => ({
         form: auth.login
     }));
 
-    const { loginErr } = useSelector(({user}) => ({
-        loginErr: user.error
-    }))
-
-    const { user }  = useSelector(({user}) => ({
+    const { user, loginErr } = useSelector(({user}) => ({
+        loginErr: user.error,
         user: user.user
     }))
 
@@ -69,9 +67,19 @@ const LoginContainer = () => {
 
     const onSubmit = e => {
         e.preventDefault();
+        const checked = document.getElementById('save_id').checked;
+
         const email = form.email;
         const password = form.password;
 
+        if(checked){
+            console.log(email, checked);
+            const date = new Date();
+            date.setDate(date.getDate() + 7);
+            console.log(date);
+            document.cookie = `saved_email=${email};expires=${date.toGMTString()};path=/`;
+        }
+        
         dispatch(login({email, password}));
         dispatch(initializeForm({form: 'login'}));
         
@@ -80,6 +88,8 @@ const LoginContainer = () => {
     }
 
     const onConfirm = () => {
+        dispatch(loginFail(null));
+        setModalMsg(null);
         setShowModal(false);
     }
 
@@ -98,6 +108,7 @@ const LoginContainer = () => {
         getUser();
 
         if(loginErr){
+            setModalMsg(loginErr);
             setShowModal(true);
         }
 
@@ -113,7 +124,7 @@ const LoginContainer = () => {
 
     
     return(
-        <LoginForm onChange={onChange} onSubmit={onSubmit} loginErr={showModal} onConfirm={onConfirm} onChangeCheckbox={onChangeCheckbox} />
+        <LoginForm onChange={onChange} onSubmit={onSubmit} loginErr={showModal} errMsg={modalMsg} onConfirm={onConfirm} onChangeCheckbox={onChangeCheckbox} />
     );
 };
 

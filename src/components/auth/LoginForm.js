@@ -6,7 +6,7 @@ import kakao from '../../images/login/kakao.png';
 import google from '../../images/login/google_2.png';
 import { useEffect } from 'react';
 
-const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm, onChangeCheckbox}) => {
+const LoginForm = ({ onChange, onSubmit, loginErr, errMsg, onConfirm, onChangeCheckbox}) => {
 
     const toGoogle = () => {
         window.open('http://localhost:4000/auth/google/', "_self");
@@ -44,7 +44,7 @@ const LoginForm = ({ onChange, onSubmit, loginErr, onConfirm, onChangeCheckbox})
                 </div>
             </div>
             {   loginErr &&
-                <Modal onConfirm={onConfirm} message="아이디와 비밀번호를 확인해 주세요."/>
+                <Modal onConfirm={onConfirm} message={errMsg}/>
             }
         </div>
     );

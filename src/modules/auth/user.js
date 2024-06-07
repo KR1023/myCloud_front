@@ -47,7 +47,10 @@ function* loginSaga(action){
     }catch(e){
         console.error(e);
         if(e.response.status === 401){
-            yield put(loginFail(e.response.data));
+            yield put(loginFail('아이디와 비밀번호를 확인해 주세요.'));
+            yield put(loginSuccess(null));
+        }else if(e.response.status === 500){
+            yield put(loginFail('서버 에러가 발생했습니다. 잠시 후 다시 시도해 주세요.'));
             yield put(loginSuccess(null));
         }
     }
