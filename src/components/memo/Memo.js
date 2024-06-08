@@ -1,6 +1,19 @@
+import { useEffect, useState } from 'react';
 import QuillEditorContainer from '../../containers/memo/QuillEditorContainer';
+import returnDateString from '../../lib/returnDateString';
 
-const Memo = ({onChangeTitle, createMemo, title, body}) => {
+const Memo = ({onChangeTitle, createMemo, selectMemo, title, body, memo, memos }) => {
+
+    const [subject, setSubject] = useState('');
+
+    useEffect(() => {
+        if(memo)
+            setSubject(memo.subject);
+    }, [memo]);
+
+    const onChangeSubject= e => {
+        setSubject(e.target.value);
+    }
 
     return(
         <div className="memo">
@@ -10,29 +23,38 @@ const Memo = ({onChangeTitle, createMemo, title, body}) => {
                     <button></button>
                 </div>
                 <div className="memo_list">
-                    <div className="content">
-                        <div className="memo_title">제목</div>
-                        <div className="memo_content">테스트 메모를 작성했습니다...테스트 메모를 작성했습니다...테스트 메모를 작성했습니다...테스트 메모를 작성했습니다...</div>
-                        <div className="memo_date">2024.06.07</div>
-                    </div>
+                    { memos && 
+                        memos.map(memo => 
+                            <div className="content" key={memo.memoId} onClick={() => selectMemo(memo.memoId)}>
+                                <div className="memo_title">{memo.subject}</div>
+                                <div className="memo_content">{memo.content.replace(/(<([^>]+)>)/ig, '')}</div>
+                                <div className="memo_date">{memo.updatedDt ? returnDateString(memo.updatedDt) : returnDateString(memo.createdDt)}</div>
+                            </div>        
+                        )
+                    }
                 </div>
             </div>
             <div className="viewer">
                 <div className="toolbar">
-                    <div>되돌리기/</div>
-                    <div>다시 실행하기/</div>
-                    <div>새 글 작성/</div>
-                    <div><button onClick={createMemo}>글 저장</button></div>
-                    <div>글 삭제/</div>
+                    <div><button className='add_memo'></button></div>
+                    <div><button className='save_memo' onClick={createMemo}></button></div>
+                    <div><button className='delete_memo'></button></div>
                 </div>
                 <div className="viewer_title">
-                    <input type="input" placeholder="제목을 입력하세요." onChange={onChangeTitle} />
+                    { memo ? 
+                        (<input type="input" placeholder="제목을 입력하세요." value={subject} onChange={(e) => {onChangeTitle(e); onChangeSubject(e)}} />) : 
+                        (<input type="input" placeholder="제목을 입력하세요." onChange={onChangeTitle} />)
+                    }
                 </div>
                 <div className="viewer_date">
-                    <span>2024-06-08 17:54:32</span>
+                    {   memo ?
+                        (<span>{memo.updatedDt ? new Date(memo.updatedDt).toLocaleString() : new Date(memo.createdDt).toLocaleString()}</span>) :
+                        (<span>{new Date().toLocaleDateString()}</span>)
+                    }
+                    
                 </div>
                 <div className="viewer_content">
-                    <QuillEditorContainer title={title} body={body} />
+                    <QuillEditorContainer title={title} body={body} memo={memo} />
                     {/* <TextEditor /> */}
                 </div>
             </div>

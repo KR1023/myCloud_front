@@ -12,12 +12,11 @@ const QuillWrapper = styled.div`
     z-index: 30;
 `;
 
-const QuillEditor = ({title, body, onChangeBody}) => {
+const QuillEditor = ({memo, onChangeBody}) => {
     const quillElement = useRef(null);
     const quillInstance = useRef(null);
 
     useEffect(() => {
-        
         const options = {
             // debug: 'info',
             modules: {
@@ -41,24 +40,12 @@ const QuillEditor = ({title, body, onChangeBody}) => {
                 onChangeBody({key: 'body', value: quill.root.innerHTML});
             }
         });
-        
-        /*
-        quillInstance.current = new Quill(quillElement.current, {
-            theme: 'bubble',
-            placeholder: '내용을 작성하세요...',
-            modules: {
-                toolbar: [
-                    [{header: '1'}, {header: '2'}],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{list: 'ordered'}, {list: 'bullet'}],
-                    ['blockquote', 'code-block', 'link', 'image']
-                ]
-            }
-
-        });
-        */
-
     }, [onChangeBody]);
+
+    useEffect(() => {
+        if(memo)
+            quillInstance.current.root.innerHTML = memo.content;
+    }, [memo]);
 
     return(
         <>

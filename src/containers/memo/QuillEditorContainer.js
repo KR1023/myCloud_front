@@ -3,14 +3,15 @@ import QuillEditor from "../../components/common/QuillEditor";
 import { changeField, initialize } from "../../modules/memo/write";
 import { useEffect, useCallback} from 'react';
 
-const QuillEditorContainer = () => {
+const QuillEditorContainer = ({memo}) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        // console.log(memo);
         return(() => {
             dispatch(initialize());
         });
-    }, [dispatch]);
+    }, [memo, dispatch]);
     
     const onChangeBody = useCallback(payload => {
         dispatch(changeField(payload));
@@ -18,7 +19,7 @@ const QuillEditorContainer = () => {
 
     return(
         <div>
-            <QuillEditor onChangeBody={onChangeBody} />
+            <QuillEditor onChangeBody={onChangeBody} memo={memo} />
         </div>
     );
 };

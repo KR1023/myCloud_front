@@ -180,9 +180,35 @@
                 font-family: 'NanumSquareRoundBold';
                 .toolbar{
                     display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
                     width: 100%;
                     height: 40px;
                     border-bottom: 1px solid gray;
+                    button{
+                        width: 25px;
+                        height: 25px;
+                        cursor: pointer;
+                        background: none;
+                    }
+                    .add_memo{
+                        background-image: url('../../svgs/memo/add_memo.svg');
+                        background-repeat: no-repeat;
+                        background-size: 25px 25px;
+                        background-position: center center;
+                    }
+                    .save_memo{
+                        background-image: url('../../svgs/memo/save_memo.svg');
+                        background-repeat: no-repeat;
+                        background-size: 25px 25px;
+                        background-position: center center;
+                    }
+                    .delete_memo{
+                        background-image: url('../../svgs/memo/delete_memo.svg');
+                        background-repeat: no-repeat;
+                        background-size: 25px 25px;
+                        background-position: center center;
+                    }
                 }
                 .viewer_title{
                     position: relative;
