@@ -1,5 +1,5 @@
 ::-webkit-scrollbar{
-    width: 15px;
+    width: 10px;
 }
 
 ::-webkit-scrollbar-thumb{
@@ -39,7 +39,7 @@
         box-sizing: border-box;
         // border: 1px solid #C8C8C8;
         box-shadow: rgba(0, 0, 0, .1) 2px 2px;
-        z-index: 999;
+        z-index: 10;
         .title{
             display: flex;
             justify-content: space-between;
@@ -172,10 +172,12 @@
             }
 
             .viewer{
+                position: relative;
                 width: 80%;
                 height: 100%;
                 background: #fcf3cf;
                 border-radius: 0 0 10px 0;
+                font-family: 'NanumSquareRoundBold';
                 .toolbar{
                     display: flex;
                     width: 100%;
@@ -183,20 +185,47 @@
                     border-bottom: 1px solid gray;
                 }
                 .viewer_title{
-                    margin: 20px 0 0 35px;
+                    position: relative;
+                    padding: 15px 0 0 25px;
                     width: 100%;
-                    height: 30px;
+                    height: 40px;
                     font-size: 2rem;
                     font-weight: 700;
                     font-family: 'NanumSquareRoundExtraBold';
+                    input{
+                        font-size: 1.75rem;
+                        outline: none;
+                        width: 50%;
+                        height: 30px;
+                        border: none;
+                        font-family: 'NanumSquareRoundBold';
+                        transition: .3s;
+                        border-bottom: 1px solid #fcf3cf;
+                        background: #fcf3cf;
+                        &:focus{
+                            // background-color: rgba(251, 252, 252, 1);
+                            border-bottom: 1px solid black;
+                        }
+                    }
+                }
+
+                .viewer_date{
+                    width: 100%;
+                    height: 20px;
+                    margin: 10px 0 0 35px;
+                    span{
+                        font-size: 1.1rem;
+                    }
                 }
 
                 .viewer_content{
                     width: 100%;
-                    height: 100%;
+                    height: 82%;
                     box-sizing: border-box;
                     margin-top: 20px;
-                    padding: 10px;
+                    padding: 20px;
+                    z-index: 20;
+                    overflow-y: auto;
                 }
             }
         }

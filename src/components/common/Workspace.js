@@ -1,6 +1,8 @@
 import { useRef, useCallback } from 'react';
 import '../css/Workspace.scss';
 import close from '../../svgs/close.svg';
+import MemoContainer from '../../containers/memo/MemoContainer';
+
 
 const Workspace = ({title, closeWorkspace}) => {
     const background = useRef();
@@ -36,6 +38,15 @@ const Workspace = ({title, closeWorkspace}) => {
         document.removeEventListener('mousemove', mouseMove);
     }
 
+    /*
+        에디터 사용 시 
+        <div className="viewer"> 의 onClick 이벤트에
+    */
+    const focusOnEditor = e => {
+        const editorBox  = document.getElementById('editor_box');
+        editorBox.focus();
+    }
+
     return(
         <div className="Workspace" ref={background} onClick={selectBackground}>
             <div className="wrapper" ref={workspace} onClick={selectWorkspace}>
@@ -45,32 +56,7 @@ const Workspace = ({title, closeWorkspace}) => {
                 </div>
                 {
                     title === 'memo' &&
-                    <div className="memo">
-                        <div className="list">
-                            <div className="search">
-                                <input type="text" name="search_memo" placeholder="메모 찾기"/>
-                                <button></button>
-                            </div>
-                            <div className="memo_list">
-                                <div className="content">
-                                    <div className="memo_title">제목</div>
-                                    <div className="memo_content">테스트 메모를 작성했습니다...테스트 메모를 작성했습니다...테스트 메모를 작성했습니다...테스트 메모를 작성했습니다...</div>
-                                    <div className="memo_date">2024.06.07</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="viewer">
-                            <div className="toolbar">
-                                <div>되돌리기/</div>
-                                <div>다시 실행하기/</div>
-                                <div>새 글 작성/</div>
-                                <div>저장/</div>
-                                <div>글 삭제/</div>
-                            </div>
-                            <div className="viewer_title">제목</div>
-                            <div className="viewer_content">테스트 메모를 작성했습니다...테스트 메모를 작성했습니다...테스트 메모를 작성했습니다...테스트 메모를 작성했습니다...</div>
-                        </div>
-                    </div>
+                    <MemoContainer />
                 }
             </div>
         </div>
