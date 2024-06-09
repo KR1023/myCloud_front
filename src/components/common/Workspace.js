@@ -55,7 +55,7 @@ const Workspace = ({title, closeWorkspace}) => {
                     <div className="btn_exit" onClick={closeWorkspace}></div>
                 </div>
                 {
-                    title === 'memo' &&
+                    title === '메모' &&
                     <MemoContainer />
                 }
             </div>

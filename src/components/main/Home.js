@@ -1,10 +1,10 @@
 import HeaderContainer from '../../containers/common/HeaderContainer';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import '../css/Home.scss';
 import memo from '../../images/memo/memo_3.png';
 import Workspace from '../common/Workspace';
 
-const Home = () => {
+const Home = ({user}) => {
     const [wType, setWType] = useState(null);
 
     const onClickIcon = useCallback(e => {
@@ -18,7 +18,7 @@ const Home = () => {
 
     return(
         <div className="Home">
-            <HeaderContainer />
+            <HeaderContainer setWType={setWType} />
             <div className="wrapper">
                 <div className="container memo" id="icon_memo" onClick={onClickIcon} data-app='memo'>
                     <img src={memo} alt="memo_icon" width="80" height="80" data-app='memo'/>
@@ -34,15 +34,15 @@ const Home = () => {
                 </div>
             </div>
             {   wType === 'memo' &&
-                <Workspace title="memo" closeWorkspace={closeWorkspace} />
+                <Workspace title="메모" closeWorkspace={closeWorkspace} />
             }
             {
                 wType === 'photo' &&
-                <Workspace title="photo" closeWorkspace={closeWorkspace} />
+                <Workspace title="사진" closeWorkspace={closeWorkspace} />
             }
             {
                 wType === 'explorer' &&
-                <Workspace title="explorer" closeWorkspace={closeWorkspace} />
+                <Workspace title="탐색기" closeWorkspace={closeWorkspace} />
             }
             
         </div>

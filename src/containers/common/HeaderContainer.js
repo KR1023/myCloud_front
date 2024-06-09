@@ -5,7 +5,7 @@ import { logout } from "../../modules/auth/user";
 import { useNavigate } from "react-router-dom";
 import { sessionCheck } from "../../modules/auth/auth";
 
-const HeaderContainer = () => {
+const HeaderContainer = ({setWType}) => {
 
     /*
     window.addEventListener("beforeunload", e => {
@@ -23,8 +23,6 @@ const HeaderContainer = () => {
         session: auth.session
     }));
 
-    
-
     useEffect(() => {
         if(!user && !session){
             history('/login');
@@ -35,6 +33,7 @@ const HeaderContainer = () => {
 
     const onLogout = (() => {
         if(user){
+            setWType(null);
             dispatch(logout());
         }
     })
