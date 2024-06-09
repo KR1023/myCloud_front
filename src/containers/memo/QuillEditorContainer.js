@@ -6,16 +6,21 @@ import { useEffect, useCallback} from 'react';
 const QuillEditorContainer = ({memo}) => {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        // console.log(memo);
-        return(() => {
-            dispatch(initialize());
-        });
-    }, [memo, dispatch]);
-    
     const onChangeBody = useCallback(payload => {
         dispatch(changeField(payload));
     }, [dispatch]);
+
+    useEffect(() => {
+        // console.log(memo);
+        if(memo){
+            onChangeBody({key: 'body', value: memo.content});
+        }
+        return(() => {
+            dispatch(initialize());
+        });
+    }, [memo, dispatch, onChangeBody]);
+    
+    
 
     return(
         <div>

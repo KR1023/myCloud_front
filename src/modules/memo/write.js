@@ -9,6 +9,8 @@ const CHANGE_FIELD = 'write/CHANGE_FIELD';
 const CREATE_MEMO = 'write/CREATE_MEMO';
 const CREATE_SUCCESS = 'write/CREATE_SUCCESS';
 
+const UPDATE_MEMO = 'write/UPDATE_MEMO';
+
 export const initialize = createAction(INITIALIZE);
 export const changeField = createAction(CHANGE_FIELD, ({key, value}) => ({
     key,
@@ -16,12 +18,17 @@ export const changeField = createAction(CHANGE_FIELD, ({key, value}) => ({
 }));
 export const createMemo = createAction(CREATE_MEMO, ({title, body, userEmail}) => ({title, body, userEmail}))
 export const createSuccess = createAction(CREATE_SUCCESS, memo => memo);
+export const updateMemo = createAction(UPDATE_MEMO, ({ memoId, title, body, userEmail}) => ({
+    memoId,
+    title,
+    body,
+    userEmail
+}));
 
 function* createMemoSaga(action){
     console.log(action.payload);
     try{
         const response = yield call(memoAPI.createMemo, action.payload);
-        console.log(response);
         if(response.status === 201){
             yield put(getMemoSuccess(response.data));
             yield put(memoList(action.payload.userEmail));
@@ -32,8 +39,20 @@ function* createMemoSaga(action){
     }
 }
 
+function* updateMemoSaga(action){
+    try{
+        const response = yield call(memoAPI.updateMemo, action.payload);
+        if(response.status === 200){
+            yield put(getMemoSuccess(response.data));
+            yield put(memoList(action.payload.userEmail));
+        }
+    }catch(e){
+        console.error(e);
+    }
+}
 export function* writeSaga(){
     yield takeLatest(CREATE_MEMO, createMemoSaga);
+    yield takeLatest(UPDATE_MEMO, updateMemoSaga);
 }
 
 const initialState = {

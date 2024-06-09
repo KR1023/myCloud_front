@@ -5,3 +5,5 @@ export const createMemo = ({title, body, userEmail}) => client.post('/memo', {su
 export const getMemoList = ({userEmail}) => client.post('/memo/list', ({userEmail}));
 
 export const getMemo = (memoId) => client.get(`/memo/${memoId}`);
+
+export const updateMemo = ({title, body, memoId}) => client.patch(`/memo/${memoId}`, ({subject: title, content: body}));

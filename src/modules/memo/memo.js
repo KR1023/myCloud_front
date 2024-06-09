@@ -17,10 +17,8 @@ export const getMemoSuccess = createAction(GET_MEMO_SUCCESS, memo => memo);
 export const initMemo = createAction(INIT_MEMO);
 
 function* memoListSaga(action){
-    console.log(action);
     try{
         const response = yield call(memoAPI.getMemoList, action.payload);
-        console.log(response);
         if(response.data){
             yield put(memoListSuccess(response.data));
         }

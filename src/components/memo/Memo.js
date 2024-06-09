@@ -54,7 +54,7 @@ const Memo = ({
                 </div>
                 <div className="viewer_title">
                     { memo ? 
-                        (<input type="input" ref={titleInput} placeholder="제목을 입력하세요." value={memo.subject || ''} onChange={(e) => {onChangeTitle(e); onChangeSubject(e)}} />) : 
+                        (<input type="input" ref={titleInput} placeholder="제목을 입력하세요." value={subject || ''} onChange={(e) => {onChangeTitle(e); onChangeSubject(e)}} />) : 
                         (<input type="input" placeholder="제목을 입력하세요." onChange={onChangeTitle} />)
                     }
                 </div>

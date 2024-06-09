@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { initialize, changeField, createMemo} from "../../modules/memo/write";
 import { memoList, getMemo, initMemo } from "../../modules/memo/memo";
+import { updateMemo } from "../../modules/memo/write";
 
 const MemoContainer = () => {
     const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const MemoContainer = () => {
     }, [userEmail, dispatch]);
 
     const onChangeTitle = useCallback(e => {
+        setSubject(e.target.value);
         dispatch(changeField({key: 'title', value: e.target.value}));
     }, [dispatch]);
     
@@ -43,8 +45,6 @@ const MemoContainer = () => {
     }, [memo, dispatch]);
 
     const selectMemo = memoId => {
-        // console.log(memoId);
-        // console.log('메모 선택');
         dispatch(getMemo(memoId));
     }
 
@@ -54,15 +54,13 @@ const MemoContainer = () => {
     }, [memo, dispatch])
 
     const onSaveOrUpdate = useCallback(() => {
-        console.log(memo);
         if(!memo){
             if(title.length === 0)
                 return;
             dispatch(createMemo({title, body, userEmail}));
         }else if(memo){
             const memoId = memo.memoId;
-            console.log('memoId', memoId);
-            // dispatch(updateMemo({memoId, title, body}));
+            dispatch(updateMemo({memoId, title, body, userEmail}));
         }
     }, [memo, title, body, userEmail, dispatch]);
     
