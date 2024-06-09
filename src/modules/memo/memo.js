@@ -8,14 +8,19 @@ const MEMO_LIST_SUCCESS = 'memo/MEMO_LIST_SUCCESS';
 const GET_MEMO = 'memo/GET_MEMO';
 const GET_MEMO_SUCCESS = 'memo/GET_MEMO_SUCCESS';
 
+const INIT_MEMO = 'memo/INIT_MEMO';
+
 export const memoList = createAction(MEMO_LIST, userEmail => ({userEmail}));
 export const memoListSuccess = createAction(MEMO_LIST_SUCCESS, memos => memos);
 export const getMemo = createAction(GET_MEMO, memoId => memoId);
 export const getMemoSuccess = createAction(GET_MEMO_SUCCESS, memo => memo);
+export const initMemo = createAction(INIT_MEMO);
 
 function* memoListSaga(action){
+    console.log(action);
     try{
         const response = yield call(memoAPI.getMemoList, action.payload);
+        console.log(response);
         if(response.data){
             yield put(memoListSuccess(response.data));
         }
@@ -54,6 +59,10 @@ export const memo = handleActions(
         [GET_MEMO_SUCCESS]: (state, {payload: memo}) => ({
             ...state,
             memo
+        }),
+        [INIT_MEMO]: state => ({
+            ...state,
+            memo: null
         })
     },
     initialState

@@ -164,8 +164,12 @@
                         .memo_date{
                             width:100%;
                             text-align: right;
-                            padding: 0 2px 2px 0;
-                            overflow: hidden;
+                            span{
+                                padding: 0 10px 2px 0;
+                                font-family: 'NanumSquareRoundBold';
+                                overflow: hidden;
+                            }
+                            
                         }
                     }
                 }
@@ -190,6 +194,7 @@
                         height: 25px;
                         cursor: pointer;
                         background: none;
+                        margin-right: 10px;
                     }
                     .add_memo{
                         background-image: url('../../svgs/memo/add_memo.svg');

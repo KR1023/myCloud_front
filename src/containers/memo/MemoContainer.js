@@ -1,8 +1,8 @@
 import Memo from "../../components/memo/Memo"
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { initialize, changeField, createMemo} from "../../modules/memo/write";
-import { memoList, getMemo } from "../../modules/memo/memo";
+import { memoList, getMemo, initMemo } from "../../modules/memo/memo";
 
 const MemoContainer = () => {
     const dispatch = useDispatch();
@@ -18,6 +18,10 @@ const MemoContainer = () => {
         memo: memo.memo
     }));
 
+    const [subject, setSubject] = useState('');
+
+    const titleInput = useRef();
+
     useEffect(() => {
         dispatch(memoList(userEmail));
         return(() => {
@@ -28,6 +32,15 @@ const MemoContainer = () => {
     const onChangeTitle = useCallback(e => {
         dispatch(changeField({key: 'title', value: e.target.value}));
     }, [dispatch]);
+    
+    const onInitMemo = useCallback(e => {
+        if(memo){
+            titleInput.current.value = '';
+        }
+        dispatch(initMemo());
+        dispatch(changeField({key: 'title', value: ''}));
+        setSubject('');
+    }, [memo, dispatch]);
 
     const selectMemo = memoId => {
         // console.log(memoId);
@@ -40,17 +53,30 @@ const MemoContainer = () => {
             dispatch(changeField({key: 'title', value: memo.subject}));
     }, [memo, dispatch])
 
-    const onCreateMemo = useCallback(() => {
-        dispatch(createMemo({title, body, userEmail}));
-    }, [title, body, userEmail, dispatch]);
+    const onSaveOrUpdate = useCallback(() => {
+        console.log(memo);
+        if(!memo){
+            if(title.length === 0)
+                return;
+            dispatch(createMemo({title, body, userEmail}));
+        }else if(memo){
+            const memoId = memo.memoId;
+            console.log('memoId', memoId);
+            // dispatch(updateMemo({memoId, title, body}));
+        }
+    }, [memo, title, body, userEmail, dispatch]);
     
     return(
         <Memo 
             title={title}
             body={body}
+            titleInput={titleInput}
+            onInitMemo={onInitMemo}
             selectMemo={selectMemo}
-            createMemo={onCreateMemo}
+            onSaveOrUpdate={onSaveOrUpdate}
             onChangeTitle={onChangeTitle}
+            subject={subject}
+            setSubject={setSubject}
             memo={memo}
             memos={memos}
             />

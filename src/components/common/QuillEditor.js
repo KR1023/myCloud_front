@@ -45,6 +45,8 @@ const QuillEditor = ({memo, onChangeBody}) => {
     useEffect(() => {
         if(memo)
             quillInstance.current.root.innerHTML = memo.content;
+        else if(!memo)
+            quillInstance.current.root.innerHTML = '';
     }, [memo]);
 
     return(

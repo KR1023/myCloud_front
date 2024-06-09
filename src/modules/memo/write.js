@@ -1,6 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import * as memoAPI from '../../lib/api/memo';
 import { call, put, takeLatest } from 'redux-saga/effects';
+import {memoList, getMemoSuccess} from './memo';
 
 const INITIALIZE = 'write/INITAILIZE';
 const CHANGE_FIELD = 'write/CHANGE_FIELD';
@@ -21,8 +22,9 @@ function* createMemoSaga(action){
     try{
         const response = yield call(memoAPI.createMemo, action.payload);
         console.log(response);
-        if(response.status === 200){
-            yield put(CREATE_SUCCESS, response.data);
+        if(response.status === 201){
+            yield put(getMemoSuccess(response.data));
+            yield put(memoList(action.payload.userEmail));
         }
 
     }catch(e){
@@ -36,8 +38,7 @@ export function* writeSaga(){
 
 const initialState = {
     title: '',
-    body: '',
-    memo: null
+    body: ''
 };
 
 const write = handleActions(
