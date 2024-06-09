@@ -6,7 +6,8 @@ const Memo = ({
         onChangeTitle, 
         onInitMemo, 
         onSaveOrUpdate, 
-        selectMemo, 
+        selectMemo,
+        onDeleteMemo, 
         title, 
         body, 
         subject,
@@ -50,7 +51,7 @@ const Memo = ({
                 <div className="toolbar">
                     <div><button className='add_memo' onClick={onInitMemo}></button></div>
                     <div><button className='save_memo' onClick={onSaveOrUpdate}></button></div>
-                    <div><button className='delete_memo'></button></div>
+                    <div><button className='delete_memo' onClick={onDeleteMemo}></button></div>
                 </div>
                 <div className="viewer_title">
                     { memo ? 

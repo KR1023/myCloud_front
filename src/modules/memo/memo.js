@@ -10,11 +10,14 @@ const GET_MEMO_SUCCESS = 'memo/GET_MEMO_SUCCESS';
 
 const INIT_MEMO = 'memo/INIT_MEMO';
 
+const DELETE_MEMO = 'memo/DELETE_MEMO';
+
 export const memoList = createAction(MEMO_LIST, userEmail => ({userEmail}));
 export const memoListSuccess = createAction(MEMO_LIST_SUCCESS, memos => memos);
 export const getMemo = createAction(GET_MEMO, memoId => memoId);
 export const getMemoSuccess = createAction(GET_MEMO_SUCCESS, memo => memo);
 export const initMemo = createAction(INIT_MEMO);
+export const deleteMemo = createAction(DELETE_MEMO, memoId => memoId);
 
 function* memoListSaga(action){
     try{
@@ -38,6 +41,17 @@ function* getMemoSaga(action){
     }
 }
 
+function* deleteMemoSaga(action){
+    try{
+        const response = yield call(memoAPI.deleteMemo, action.payload);
+        if(response.status === 200){
+            yield put(memoList(action.payload.userEmail));
+            yield put(initMemo());
+        }
+    }catch(e){
+        console.error(e);
+    }
+}
 const initialState = {
     memo: null,
     memos: null
@@ -46,6 +60,7 @@ const initialState = {
 export function* memoSaga(){
     yield takeLatest(MEMO_LIST, memoListSaga);
     yield takeLatest(GET_MEMO, getMemoSaga);
+    yield takeLatest(DELETE_MEMO, deleteMemoSaga);
 }
 
 export const memo = handleActions(

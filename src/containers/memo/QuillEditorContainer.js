@@ -20,8 +20,6 @@ const QuillEditorContainer = ({memo}) => {
         });
     }, [memo, dispatch, onChangeBody]);
     
-    
-
     return(
         <div>
             <QuillEditor onChangeBody={onChangeBody} memo={memo} />

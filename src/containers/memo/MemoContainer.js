@@ -2,7 +2,7 @@ import Memo from "../../components/memo/Memo"
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { initialize, changeField, createMemo} from "../../modules/memo/write";
-import { memoList, getMemo, initMemo } from "../../modules/memo/memo";
+import { memoList, getMemo, initMemo, deleteMemo } from "../../modules/memo/memo";
 import { updateMemo } from "../../modules/memo/write";
 
 const MemoContainer = () => {
@@ -64,6 +64,13 @@ const MemoContainer = () => {
         }
     }, [memo, title, body, userEmail, dispatch]);
     
+    const onDeleteMemo = useCallback(() => {
+        if(memo){
+            dispatch(deleteMemo({memoId: memo.memoId, userEmail}));
+            setSubject('');
+        }
+    }, [memo, userEmail, dispatch]);
+    
     return(
         <Memo 
             title={title}
@@ -73,6 +80,7 @@ const MemoContainer = () => {
             selectMemo={selectMemo}
             onSaveOrUpdate={onSaveOrUpdate}
             onChangeTitle={onChangeTitle}
+            onDeleteMemo={onDeleteMemo}
             subject={subject}
             setSubject={setSubject}
             memo={memo}
