@@ -17,26 +17,29 @@ const HeaderContainer = ({setWType}) => {
     const history = useNavigate();
     const dispatch = useDispatch();
 
-    const { user } = useSelector(({user}) => ({ user: user.user}));
-
-    const { session } = useSelector(({auth}) => ({
-        session: auth.session
-    }));
+    const { user, session } = useSelector(({user, auth}) => ({ user: user.user, session: auth.session}));
 
     useEffect(() => {
+        dispatch(sessionCheck());
+        
         if(!user && !session){
             history('/login');
         }
-
-        dispatch(sessionCheck());
     },[user, session, history, dispatch]);
+
+    useEffect(() => {
+       
+    },[session, history]);
 
     const onLogout = (() => {
         if(user){
             setWType(null);
             dispatch(logout());
         }
-    })
+    });
+
+    
+    
     return(
         <Header user={user} onLogout={onLogout}/>
     );

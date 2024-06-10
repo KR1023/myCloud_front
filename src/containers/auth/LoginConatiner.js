@@ -5,7 +5,7 @@ import { changeField, initializeForm } from "../../modules/auth/auth";
 import { googleLogin, login, loginFail } from "../../modules/auth/user";
 import { useNavigate } from "react-router-dom";
 import * as authAPI from '../../lib/api/auth';
-import axios from 'axios';
+// import axios from 'axios';
 
 const LoginContainer = () => {
     const history = useNavigate();
@@ -17,10 +17,11 @@ const LoginContainer = () => {
         form: auth.login
     }));
 
-    const { user, loginErr } = useSelector(({user}) => ({
+    const { user, loginErr, session } = useSelector(({user, auth}) => ({
         loginErr: user.error,
-        user: user.user
-    }))
+        user: user.user,
+        session: auth.session
+    }));
 
     const getUser = useCallback(async () => {
         try{
@@ -108,7 +109,7 @@ const LoginContainer = () => {
             setShowModal(true);
         }
 
-        if(user){
+        if(user && session){
             history('/');
             try{
                 localStorage.setItem('user', JSON.stringify(user));
@@ -116,7 +117,7 @@ const LoginContainer = () => {
                 console.error('localStorage is not working...');
             }
         }
-    }, [user, history, loginErr, getUser, dispatch]);
+    }, [user, session, history, loginErr, getUser, dispatch]);
 
     
     return(

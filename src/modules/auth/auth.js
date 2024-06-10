@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import * as  authAPI from '../../lib/api/auth';
 import { takeLatest, call, put } from 'redux-saga/effects';
+import { logout } from './user';
 
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
@@ -60,7 +61,7 @@ function* checkUserSaga(action){
 
 function* registerSaga(action){
     try{
-        const response = yield call(authAPI.register, action.payload);
+        yield call(authAPI.register, action.payload);
     }catch(e){
         yield put(registerError(e.response.data));
     }
@@ -76,6 +77,7 @@ function* sessionCheckSaga(action){
         console.error(e.response);
         localStorage.removeItem('user');
         yield put(sessionStatus(false));
+        yield put(logout());
             
     }
 }

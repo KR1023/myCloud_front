@@ -43,6 +43,7 @@ function* loginSaga(action){
         if(response.status === 201){
             yield put(loginSuccess(response.data));
             yield put(loginFail(null));
+            yield put(sessionStatus(true));
         }
     }catch(e){
         console.error(e);
