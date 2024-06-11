@@ -2,7 +2,8 @@ import { useEffect, useRef, useMemo } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.snow.css';
-import axios from 'axios';
+import * as memoAPI from '../../lib/api/memo';
+// import axios from 'axios';
 
 import styled from 'styled-components';
 
@@ -29,7 +30,8 @@ const QuillEditor = ({memo, onChangeBody}) => {
             formData.append('file', file);
             
             try{
-                const response = await axios.post('http://localhost:4000/memo/upload', formData);
+                // const response = await axios.post('http://localhost:4000/memo/upload', formData);
+                const response = await memoAPI.uploadFile(formData);
     
                 const IMG_URL = response.data.url;
                 const editor = quillInstance.current;
@@ -45,7 +47,7 @@ const QuillEditor = ({memo, onChangeBody}) => {
     const options = useMemo(() => {
         return {
             // debug: 'info',
-            modules: {
+            modules: { 
                 toolbar: {
                     container: [
                         [{header: '1'}, {header: '2'}],
