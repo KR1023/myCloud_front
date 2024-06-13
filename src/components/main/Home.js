@@ -1,7 +1,8 @@
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import { useCallback, useState, useEffect } from 'react';
 import '../css/Home.scss';
-import memo from '../../images/memo/memo_3.png';
+import memo from '../../images/memo/memo_icon_2.png';
+import photo from '../../images/photo/photo_icon.png';
 import Workspace from '../common/Workspace';
 
 const Home = ({user}) => {
@@ -25,10 +26,10 @@ const Home = ({user}) => {
                     <span data-app='memo'>메모</span>
                 </div>
                 <div className="container photo" id="icon_photo" onClick={onClickIcon} data-app='photo'>
-                    <img src={memo} alt="photo_icon" width="80" height="80" data-app='photo' />
+                    <img src={photo} alt="photo_icon" width="80" height="80" data-app='photo' />
                     <span>사진</span>
                 </div>
-                <div className="container photo" id="icon_explorer" onClick={onClickIcon} data-app='explorer'>
+                <div className="container explorer" id="icon_explorer" onClick={onClickIcon} data-app='explorer'>
                     <img src={memo} alt="explorer_icon" width="80" height="80" data-app='explorer' />
                     <span>탐색기</span>
                 </div>

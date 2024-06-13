@@ -2,6 +2,7 @@ import { useRef, useCallback } from 'react';
 import '../css/Workspace.scss';
 import close from '../../svgs/close.svg';
 import MemoContainer from '../../containers/memo/MemoContainer';
+import Photo from '../photo/Photo';
 
 
 const Workspace = ({title, closeWorkspace}) => {
@@ -57,6 +58,10 @@ const Workspace = ({title, closeWorkspace}) => {
                 {
                     title === '메모' &&
                     <MemoContainer />
+                }
+                {
+                    title === '사진' &&
+                    <Photo />
                 }
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo, useCallback } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.snow.css';
@@ -18,7 +18,7 @@ const QuillEditor = ({memo, onChangeBody}) => {
     const quillElement = useRef(null);
     const quillInstance = useRef(null);
 
-    const imageHandler = () => {
+    const imageHandler = useCallback(() => {
         const input = document.createElement('input');
         input.setAttribute('type', 'file');
         input.setAttribute('accept', 'image/*')
@@ -42,7 +42,7 @@ const QuillEditor = ({memo, onChangeBody}) => {
                 console.error(e);
             }
         })
-    }
+    }, []);
 
     const options = useMemo(() => {
         return {
@@ -57,17 +57,16 @@ const QuillEditor = ({memo, onChangeBody}) => {
                         ['blockquote', 'code-block', 'link', 'image']
                     ],
                     handlers: {
-                        image: imageHandler
+                        image: imageHandler,
                     }
                 }
             },
             placeholder: '내용을 입력해 주세요...',
             theme: 'bubble'
         };
-    }, []);
+    }, [imageHandler]);
 
     useEffect(() => {
-
         quillInstance.current = new Quill(quillElement.current, options);
 
         const quill = quillInstance.current;
