@@ -2,8 +2,9 @@ import '../css/photo/Photo.scss';
 import sample_photo from '../../images/photo/photo_icon.png';
 import { useRef, useEffect, useCallback, useState } from 'react';
 import returnDateString from '../../lib/returnDateString';
+import * as photoAPI from '../../lib/api/photo';
 
-const Photo = () => {
+const Photo = ({user}) => {
     const startDateEl = useRef();
     const endDateEl = useRef();
 
@@ -24,8 +25,32 @@ const Photo = () => {
             setStartDate(e.target.value);
         else if(dateType === 'end')
             setEndDate(e.target.value);
-
     }, []);
+
+    const uploadPhoto = useCallback(e => {
+        const fileInput = document.createElement('input');
+        fileInput.setAttribute("type", "file");
+        fileInput.setAttribute("accept", ".jpg,.jpeg,.png");
+        fileInput.setAttribute("multiple", true);
+        fileInput.click();
+
+        fileInput.addEventListener('change', async() => {
+            const files = fileInput.files;
+            
+            const formData = new FormData();
+            formData.append('userEmail', user.email);
+            for(const file of files){
+                formData.append('photo', file);
+            }
+
+            try{
+                const response = await photoAPI.uploadPhoto(formData);
+                console.log(response);
+            }catch(e){
+                console.error(e);
+            }
+        });
+    }, [user]);
 
     useEffect(() => {
         if(selectType === 'all'){
@@ -48,7 +73,7 @@ const Photo = () => {
                 </div>
                 <div className='photo_manage'>
                     <button className="select_photo"></button>
-                    <button className="upload_photo"></button>
+                    <button className="upload_photo" onClick={uploadPhoto}></button>
                     <button className="download_photo"></button>
                     <button className="delete_photo"></button>
                 </div>

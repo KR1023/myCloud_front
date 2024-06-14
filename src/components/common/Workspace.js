@@ -2,7 +2,7 @@ import { useRef, useCallback } from 'react';
 import '../css/Workspace.scss';
 import close from '../../svgs/close.svg';
 import MemoContainer from '../../containers/memo/MemoContainer';
-import Photo from '../photo/Photo';
+import PhotoContainer from '../../containers/photo/PhotoContainer';
 
 
 const Workspace = ({title, closeWorkspace}) => {
@@ -61,7 +61,7 @@ const Workspace = ({title, closeWorkspace}) => {
                 }
                 {
                     title === '사진' &&
-                    <Photo />
+                    <PhotoContainer />
                 }
             </div>
         </div>
