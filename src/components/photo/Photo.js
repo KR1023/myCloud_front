@@ -3,8 +3,9 @@ import sample_photo from '../../images/photo/photo_icon.png';
 import { useRef, useEffect, useCallback, useState } from 'react';
 import returnDateString from '../../lib/returnDateString';
 import * as photoAPI from '../../lib/api/photo';
+import servicePath from '../../lib/returnServicePath';
 
-const Photo = ({user}) => {
+const Photo = ({user, photoList, uploadPhoto}) => {
     const startDateEl = useRef();
     const endDateEl = useRef();
 
@@ -26,31 +27,6 @@ const Photo = ({user}) => {
         else if(dateType === 'end')
             setEndDate(e.target.value);
     }, []);
-
-    const uploadPhoto = useCallback(e => {
-        const fileInput = document.createElement('input');
-        fileInput.setAttribute("type", "file");
-        fileInput.setAttribute("accept", ".jpg,.jpeg,.png");
-        fileInput.setAttribute("multiple", true);
-        fileInput.click();
-
-        fileInput.addEventListener('change', async() => {
-            const files = fileInput.files;
-            
-            const formData = new FormData();
-            formData.append('userEmail', user.email);
-            for(const file of files){
-                formData.append('photo', file);
-            }
-
-            try{
-                const response = await photoAPI.uploadPhoto(formData);
-                console.log(response);
-            }catch(e){
-                console.error(e);
-            }
-        });
-    }, [user]);
 
     useEffect(() => {
         if(selectType === 'all'){
@@ -79,19 +55,21 @@ const Photo = ({user}) => {
                 </div>
             </div>
             <div className="photo_board">
-                <div className="photos">
-                    <div className="photo_el">
-                        <img src={sample_photo} alt="sample" />
-                        <span>image_1.png</span>
-                    </div>
-                    <div className="photo_el">
-                        <img src={sample_photo} alt="sample" />
-                        <span>image_1.png</span>
-                    </div>
-                    <div className="photo_el">
-                        <img src={sample_photo} alt="sample" />
-                        <span>image_1.png</span>
-                    </div>
+                <div className="photos" draggable={true}>
+                    {   (!photoList || photoList.length === 0) && 
+                        <div className="no_photos">
+                            <b>이미지가 없습니다.</b>
+                        </div>
+                    }
+                    
+                    {photoList && 
+                        photoList.map(photo => (
+                            <div className="photo_el">
+                                <img src={servicePath(photo.path)} alt={photo.originalName} />
+                                <div>{photo.filename}</div>
+                            </div>
+                        ))
+                    }
                 </div>
                 <div className="photo_attribute">
                     <div className="image_container">
