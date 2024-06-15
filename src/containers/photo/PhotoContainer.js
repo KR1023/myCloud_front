@@ -14,6 +14,7 @@ const PhotoContainer = () => {
     }));
 
     const [currPhoto, setCurrPhoto] = useState(null);
+    const [chosenList, setChosenList] = useState([]);
 
     const uploadPhoto = useCallback(e => {
         const fileInput = document.createElement('input');
@@ -33,7 +34,6 @@ const PhotoContainer = () => {
 
             try{
                 const response = await photoAPI.uploadPhoto(formData);
-                console.log(response);
                 dispatch(getPhotoList(user.email));
             }catch(e){
                 console.error(e);
@@ -61,7 +61,7 @@ const PhotoContainer = () => {
         }
     }, [user, dispatch]);
 
-    const downloadAPhoto = async currPhoto => {
+    const downloadAPhoto = useCallback(async currPhoto => {
         try{
             // const response = await photoAPI.downloadPhoto(currPhoto.photo_id);
             const response = await fetch(`http://localhost:4000/photo/download/${currPhoto.photo_id}`);
@@ -80,7 +80,40 @@ const PhotoContainer = () => {
         }catch(e){
             console.error(e);
         }
-    };
+    }, []);
+
+    const downloadPhotos = useCallback(async () => {
+        if(!chosenList || chosenList.length === 0){
+            console.log('선택된 사진 없음');
+        }
+
+        try{
+            const response = await fetch(`http://localhost:4000/photo/download/photos`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userEmail: user.email,
+                    idList: chosenList
+                })
+            });
+
+            const file = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(file);
+
+            const a = document.createElement('a');
+            document.body.appendChild(a);
+            a.download = 'photos.zip';
+            a.href = downloadUrl;
+
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(downloadUrl);
+        }catch(e){
+            console.error(e);
+        }
+    }, [user, chosenList]);
 
     const deleteAPhoto = async currPhoto => {
         try{
@@ -102,7 +135,19 @@ const PhotoContainer = () => {
 
 
     return(
-        <Photo user={user} photoList={photoList} currPhoto={currPhoto} setCurrPhoto={setCurrPhoto} uploadPhoto={uploadPhoto} dragDrop={dragDrop} downloadAPhoto={downloadAPhoto} deleteAPhoto={deleteAPhoto}/>
+        <Photo 
+            user={user}
+            photoList={photoList}
+            currPhoto={currPhoto} 
+            setCurrPhoto={setCurrPhoto} 
+            chosenList={chosenList}
+            setChosenList={setChosenList}
+            uploadPhoto={uploadPhoto} 
+            dragDrop={dragDrop} 
+            downloadAPhoto={downloadAPhoto} 
+            downloadPhotos={downloadPhotos}
+            deleteAPhoto={deleteAPhoto}
+        />
     );
 };
 

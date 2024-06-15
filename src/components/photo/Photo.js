@@ -4,7 +4,20 @@ import returnDateString from '../../lib/returnDateString';
 import servicePath from '../../lib/returnServicePath';
 import returnFileSize from '../../lib/returnFileSize';
 
-const Photo = ({user, photoList, currPhoto, setCurrPhoto ,uploadPhoto, dragDrop, downloadAPhoto, deleteAPhoto}) => {
+const Photo = ({
+        user, 
+        photoList, 
+        currPhoto, 
+        setCurrPhoto, 
+        chosenList, 
+        setChosenList, 
+        uploadPhoto, 
+        dragDrop, 
+        downloadAPhoto,
+        downloadPhotos,
+        deleteAPhoto
+    }) => {
+
     const startDateEl = useRef();
     const endDateEl = useRef();
 
@@ -15,7 +28,7 @@ const Photo = ({user, photoList, currPhoto, setCurrPhoto ,uploadPhoto, dragDrop,
     
     const [selectable, setSelectable] = useState(true);
 
-    const [chosenList, setChosenList] = useState([]);
+    
 
     const onChangeRadio = useCallback(e => {
         setSelectType(e.target.value);
@@ -110,7 +123,7 @@ const Photo = ({user, photoList, currPhoto, setCurrPhoto ,uploadPhoto, dragDrop,
                 <div className='photo_manage'>
                     <button className="select_photo" onClick={selectPhotos}></button>
                     {   !selectable && 
-                            <button className="download_photo"></button>
+                            <button className="download_photo" onClick={downloadPhotos}></button>
                     }
                     {
                         selectable && 
