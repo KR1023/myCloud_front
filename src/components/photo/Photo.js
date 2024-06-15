@@ -1,9 +1,8 @@
 import '../css/photo/Photo.scss';
-import sample_photo from '../../images/photo/photo_icon.png';
 import { useRef, useEffect, useCallback, useState } from 'react';
 import returnDateString from '../../lib/returnDateString';
-import * as photoAPI from '../../lib/api/photo';
 import servicePath from '../../lib/returnServicePath';
+import returnFileSize from '../../lib/returnFileSize';
 
 const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
     const startDateEl = useRef();
@@ -12,6 +11,8 @@ const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
     const [selectType, setSelectType] = useState('all');
     const [startDate, setStartDate] = useState(returnDateString(new Date()));
     const [endDate, setEndDate] = useState(returnDateString(new Date()));
+
+    const [currPhoto, setCurrPhoto] = useState(null);
 
     const onChangeRadio = useCallback(e => {
         console.log(e.target.value);
@@ -50,6 +51,9 @@ const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
     const dragLeave = e => {
     }
     
+    const clickPhoto = photo => {
+        setCurrPhoto(photo);
+    }
 
     return(
         <div className="workspace_photo">
@@ -77,20 +81,30 @@ const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
                     
                     {photoList && 
                         photoList.map(photo => (
-                            <div className="photo_el" key={photo.photo_id}>
+                            <div className="photo_el" key={photo.photo_id} onClick={e => {clickPhoto(photo)}}>
                                 <img src={servicePath(photo.path)} alt={photo.originalName} />
-                                <div>{photo.filename}</div>
+                                <div>{photo.originalName}</div>
                             </div>
                         ))
                     }
                 </div>
                 <div className="photo_attribute">
-                    <div className="image_container">
-                        <img src={sample_photo} alt="sample_photo" />
-                    </div>
-                    <p>파일 이름 : <span>sample_1.png</span></p>
-                    <p>파일 크기 : <span>2MB</span></p>
-                    <p>업로드 시간 : <span>2024-06-13 15:40:23</span></p>
+                    { !currPhoto && 
+                        <div className="no_photo">
+                            <p>선택된 사진이 없습니다.</p>
+                        </div>
+                    }
+                    { currPhoto && 
+                        <div>
+                            <div className="image_container">
+                            <img src={servicePath(currPhoto.path)} alt={currPhoto.originalName} />
+                            </div>
+                            <p>파일 이름 : <span>{currPhoto.originalName}</span></p>
+                            <p>파일 크기 : <span>{returnFileSize(currPhoto.size)}</span></p>
+                            <p>업로드 시간 : <span>{new Date(currPhoto.uploadedDate).toLocaleString()}</span></p>
+                        </div>
+                    }
+                    
                 </div>
             </div>
         </div>
