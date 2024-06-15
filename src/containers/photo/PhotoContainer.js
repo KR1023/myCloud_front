@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Photo from "../../components/photo/Photo"
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useCallback} from 'react';
@@ -11,6 +12,8 @@ const PhotoContainer = () => {
         user: user.user,
         photoList: photo.photoList
     }));
+
+    const [currPhoto, setCurrPhoto] = useState(null);
 
     const uploadPhoto = useCallback(e => {
         const fileInput = document.createElement('input');
@@ -58,6 +61,40 @@ const PhotoContainer = () => {
         }
     }, [user, dispatch]);
 
+    const downloadAPhoto = async currPhoto => {
+        try{
+            // const response = await photoAPI.downloadPhoto(currPhoto.photo_id);
+            const response = await fetch(`http://localhost:4000/photo/download/${currPhoto.photo_id}`);
+            const file = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(file);
+
+            const a = document.createElement('a');
+            document.body.appendChild(a);
+            a.download = currPhoto.filename;
+            a.href = downloadUrl;
+
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(downloadUrl);
+
+        }catch(e){
+            console.error(e);
+        }
+    };
+
+    const deleteAPhoto = async currPhoto => {
+        try{
+            const response = await photoAPI.deletePhoto(currPhoto.photo_id);
+            if(response.data.code === 201){
+                dispatch(getPhotoList(user.email));
+            }
+        }catch(e){
+            console.error(e);
+        }finally{
+            setCurrPhoto(null);
+        }
+    }
+
     useEffect(() => {
         if(user)
             dispatch(getPhotoList(user.email));
@@ -65,7 +102,7 @@ const PhotoContainer = () => {
 
 
     return(
-        <Photo user={user} photoList={photoList} uploadPhoto={uploadPhoto} dragDrop={dragDrop} />
+        <Photo user={user} photoList={photoList} currPhoto={currPhoto} setCurrPhoto={setCurrPhoto} uploadPhoto={uploadPhoto} dragDrop={dragDrop} downloadAPhoto={downloadAPhoto} deleteAPhoto={deleteAPhoto}/>
     );
 };
 

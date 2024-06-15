@@ -4,7 +4,7 @@ import returnDateString from '../../lib/returnDateString';
 import servicePath from '../../lib/returnServicePath';
 import returnFileSize from '../../lib/returnFileSize';
 
-const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
+const Photo = ({user, photoList, currPhoto, setCurrPhoto ,uploadPhoto, dragDrop, downloadAPhoto, deleteAPhoto}) => {
     const startDateEl = useRef();
     const endDateEl = useRef();
 
@@ -12,17 +12,18 @@ const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
     const [startDate, setStartDate] = useState(returnDateString(new Date()));
     const [endDate, setEndDate] = useState(returnDateString(new Date()));
 
-    const [currPhoto, setCurrPhoto] = useState(null);
+    
+    const [selectable, setSelectable] = useState(true);
+
+    const [chosenList, setChosenList] = useState([]);
 
     const onChangeRadio = useCallback(e => {
-        console.log(e.target.value);
         setSelectType(e.target.value);
     }, []);
 
     const onChangeDate = useCallback(e => {
-        console.log(e.target.dataset.date);
         const dateType = e.target.dataset.date;
-
+        
         if(dateType === 'start')
             setStartDate(e.target.value);
         else if(dateType === 'end')
@@ -51,9 +52,51 @@ const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
     const dragLeave = e => {
     }
     
-    const clickPhoto = photo => {
+    const clickPhoto = (e, photo) => {
         setCurrPhoto(photo);
+        const chosenTag = e.target.tagName;
+        if(!selectable){
+            if(!chosenList.includes(photo.photo_id)){
+                setChosenList(chosenList.concat(photo.photo_id));
+            }else{
+                setChosenList(chosenList.filter(item => item !== photo.photo_id));
+            }
+            
+            if(chosenTag === 'DIV'){
+                e.target.classList.toggle('chosen');
+            }else if(chosenTag === 'IMG' || chosenTag === 'SPAN'){
+                e.target.parentElement.classList.toggle('chosen');
+            }
+        }
     }
+
+    const selectPhotos = e => {
+        setSelectable(!selectable);
+        if(selectable){
+            const nodes = document.getElementsByClassName('photo_el');
+            for(let i = 0; i < nodes.length; i++){
+                let childs = nodes[i].childNodes;
+                nodes[i].className += ' checked';
+
+                for(let j = 0; j < childs.length; j++){
+                    childs[j].className += ' checked';
+                }
+            }
+        }else if(!selectable){
+            const nodes = document.getElementsByClassName('photo_el');
+            for(let i = 0; i < nodes.length; i++){
+                nodes[i].classList.remove('checked');
+                nodes[i].classList.remove('chosen');
+                let childs = nodes[i].childNodes;
+                for(let j = 0; j < childs.length; j++){
+                    childs[j].classList.remove('checked');
+                }
+            }
+            setChosenList([]);
+        }
+    }
+
+    
 
     return(
         <div className="workspace_photo">
@@ -65,9 +108,14 @@ const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
                     <input type="date" ref={endDateEl} value={endDate} max={returnDateString(new Date())} onChange={onChangeDate} data-date='end' />
                 </div>
                 <div className='photo_manage'>
-                    <button className="select_photo"></button>
-                    <button className="upload_photo" onClick={uploadPhoto}></button>
-                    <button className="download_photo"></button>
+                    <button className="select_photo" onClick={selectPhotos}></button>
+                    {   !selectable && 
+                            <button className="download_photo"></button>
+                    }
+                    {
+                        selectable && 
+                        <button className="upload_photo" onClick={uploadPhoto}></button>
+                    }
                     <button className="delete_photo"></button>
                 </div>
             </div>
@@ -81,9 +129,9 @@ const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
                     
                     {photoList && 
                         photoList.map(photo => (
-                            <div className="photo_el" key={photo.photo_id} onClick={e => {clickPhoto(photo)}}>
-                                <img src={servicePath(photo.path)} alt={photo.originalName} />
-                                <div>{photo.originalName}</div>
+                            <div className="photo_el" key={photo.photo_id} onClick={e => {clickPhoto(e, photo)}}>
+                                <img className=""src={servicePath(photo.path)} alt={photo.originalName} />
+                                <span className="image_name">{photo.originalName}</span>
                             </div>
                         ))
                     }
@@ -102,6 +150,10 @@ const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
                             <p>파일 이름 : <span>{currPhoto.originalName}</span></p>
                             <p>파일 크기 : <span>{returnFileSize(currPhoto.size)}</span></p>
                             <p>업로드 시간 : <span>{new Date(currPhoto.uploadedDate).toLocaleString()}</span></p>
+                            <p>
+                                <button className="button_download" onClick={e => downloadAPhoto(currPhoto)}></button>
+                                <button className="button_delete" onClick={e => deleteAPhoto(currPhoto)}></button>
+                            </p>
                         </div>
                     }
                     

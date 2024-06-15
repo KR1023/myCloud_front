@@ -152,22 +152,52 @@
                 height: 110px;
                 margin: 20px;
                 border-radius: 5px;
+                box-sizing: border-box;
                 cursor: pointer;
+                &.checked.chosen::before{
+                    content: url('../../../svgs/photo/checkbox_true.svg');
+                    position: relative;
+                    display: inline-block;
+                    left: -61px;
+                    top: -10px;
+                    z-index: 5;
+                }
+                &.checked.chosen{
+                    border: 2px solid #5DADE2;
+                }
                 img{
                     width: 100px;
                     height: 70px;
+                    
+                    &.checked{
+                        position: relative;
+                        left: 0;
+                        top: -15px;
+                    }
                 }
-                div{
+                .image_name{
                     overflow: hidden;
                     text-overflow: ellipsis;
                     font-family: 'NanumSquareRoundBold';
                     text-align: center;
+                    &.checked{
+                        position: relative;
+                        top: -8px;
+                    }
                 }
                 
                 &:hover{
                     box-shadow: rgba(0, 0, 0, .7) 0px 5px 10px;
                 }
 
+                &.checked::before{
+                    position: relative;
+                    display: inline-block;
+                    content: url('../../../svgs/photo/checkbox_false.svg');
+                    left: -61px;
+                    top: -10px;
+                    z-index: 5;
+                }
             }
         }
 
@@ -204,6 +234,29 @@
                 span{
                     font-family: 'sans-serif';
                 }
+                button{
+                    background: none;
+                    width: 35px;
+                    height: 35px;
+                    background-size: 35px 35px;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    cursor: pointer;
+                    transition: .3s;
+                    &.button_download{
+                        background-image: url('../../../svgs/photo/download.svg');   
+                        &:hover{
+                            background-image: url('../../../svgs/photo/download_hover.svg');
+                        }
+                    }
+                    &.button_delete{
+                        background-image: url('../../../svgs/photo/delete.svg');
+                        &:hover{
+                            background-image: url('../../../svgs/photo/delete_hover.svg');
+                        }
+                    }
+                }
+                
             }
         }
     }
