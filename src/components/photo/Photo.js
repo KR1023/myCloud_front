@@ -5,7 +5,7 @@ import returnDateString from '../../lib/returnDateString';
 import * as photoAPI from '../../lib/api/photo';
 import servicePath from '../../lib/returnServicePath';
 
-const Photo = ({user, photoList, uploadPhoto}) => {
+const Photo = ({user, photoList, uploadPhoto, dragDrop}) => {
     const startDateEl = useRef();
     const endDateEl = useRef();
 
@@ -38,6 +38,19 @@ const Photo = ({user, photoList, uploadPhoto}) => {
         }
     }, [selectType, startDate]);
 
+    const dragEnter = e => {
+
+    }
+
+    const dragOver = e => {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    const dragLeave = e => {
+    }
+    
+
     return(
         <div className="workspace_photo">
             <div className="photo_header">
@@ -55,7 +68,7 @@ const Photo = ({user, photoList, uploadPhoto}) => {
                 </div>
             </div>
             <div className="photo_board">
-                <div className="photos" draggable={true}>
+                <div className="photos" draggable={false} onDragEnter={dragEnter} onDrop={dragDrop} onDragOver={dragOver} onDragLeave={dragLeave}>
                     {   (!photoList || photoList.length === 0) && 
                         <div className="no_photos">
                             <b>이미지가 없습니다.</b>
@@ -64,7 +77,7 @@ const Photo = ({user, photoList, uploadPhoto}) => {
                     
                     {photoList && 
                         photoList.map(photo => (
-                            <div className="photo_el">
+                            <div className="photo_el" key={photo.photo_id}>
                                 <img src={servicePath(photo.path)} alt={photo.originalName} />
                                 <div>{photo.filename}</div>
                             </div>

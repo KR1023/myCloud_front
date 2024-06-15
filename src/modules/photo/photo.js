@@ -12,7 +12,6 @@ export const getPhotoListSuccess = createAction(GET_PHOTO_LIST_SUCCESS, photoLis
 export const getPhotoListFail = createAction(GET_PHOTO_LIST_FAIL, error => error);
 
 function* getPhotoListSaga(action){
-    console.log(action.payload);
     try{
         const response = yield call(photoAPI.getPhotoList, action.payload);
         if(response.status === 200){

@@ -38,6 +38,26 @@ const PhotoContainer = () => {
         });
     }, [user, dispatch]);
 
+    const dragDrop = useCallback(async e => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const files = e.dataTransfer.files;
+            
+        const formData = new FormData();
+        formData.append('userEmail', user.email);
+        for(const file of files){
+            formData.append('photo', file);
+        }
+
+        try{
+            const response = await photoAPI.uploadPhoto(formData);
+            dispatch(getPhotoList(user.email));
+        }catch(e){
+            console.error(e);
+        }
+    }, [user, dispatch]);
+
     useEffect(() => {
         if(user)
             dispatch(getPhotoList(user.email));
@@ -45,7 +65,7 @@ const PhotoContainer = () => {
 
 
     return(
-        <Photo user={user} photoList={photoList} uploadPhoto={uploadPhoto} />
+        <Photo user={user} photoList={photoList} uploadPhoto={uploadPhoto} dragDrop={dragDrop} />
     );
 };
 
