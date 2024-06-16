@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useCallback} from 'react';
 import { getPhotoList } from '../../modules/photo/photo';
 import * as photoAPI from '../../lib/api/photo';
+import returnDateString from '../../lib/returnDateString';
 import Modal from '../../components/common/Modal';
 
 const PhotoContainer = () => {
@@ -16,7 +17,37 @@ const PhotoContainer = () => {
 
     const [currPhoto, setCurrPhoto] = useState(null);
     const [chosenList, setChosenList] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [modalOption, setModalOption] = useState(
+        {
+            show: false,
+            message: ''
+        }
+    )
+
+    const [selectOption, setSelectOption] = useState(
+        {
+            selectType: 'all',
+            startDate: returnDateString(new Date()),
+            endDate: returnDateString(new Date())
+        }
+    );
+
+    const searchImage = useCallback(() => {
+        if(selectOption.selectType === 'date'){
+            if((selectOption.startDate > selectOption.endDate) || !selectOption.startDate || !selectOption.endDate){
+                setModalOption({message: '날짜를 확인해 주세요', show: true});
+                return;
+            }
+            dispatch(getPhotoList({userEmail: user.email, startDate: selectOption.startDate, endDate: selectOption.endDate}));
+
+        }else
+            dispatch(getPhotoList({userEmail: user.email}));
+    }, [user,selectOption, dispatch]);
+    
+    const onChangeRadio = useCallback(e => {
+        setSelectOption({...selectOption, selectType: e.target.value});
+    }, [selectOption, setSelectOption]);
+
 
     const uploadPhoto = useCallback(e => {
         const fileInput = document.createElement('input');
@@ -86,7 +117,7 @@ const PhotoContainer = () => {
 
     const downloadPhotos = useCallback(async () => {
         if(!chosenList || chosenList.length === 0){
-            setShowModal(true);
+            setModalOption({show: true, message: '사진을 선택해 주세요.'});
             return;
         }
 
@@ -133,7 +164,7 @@ const PhotoContainer = () => {
 
     const deletePhotos = useCallback(async () => {
         if(!chosenList || chosenList.length === 0){
-            setShowModal(true);
+            setModalOption({show: true, message: '사진을 선택해 주세요.'});
             return;
         }
         try{
@@ -149,19 +180,22 @@ const PhotoContainer = () => {
     }, [user, chosenList, dispatch]);
 
     const closeModal = () => {
-        setShowModal(false);
+        setModalOption({message: '', show: false});
     };
 
     useEffect(() => {
         if(user)
-            dispatch(getPhotoList(user.email));
+            dispatch(getPhotoList({userEmail: user.email}));
     }, [user, dispatch])
-
 
     return(
         <>
             <Photo 
                 user={user}
+                searchImage={searchImage}
+                selectOption={selectOption}
+                setSelectOption={setSelectOption}
+                onChangeRadio={onChangeRadio}
                 photoList={photoList}
                 currPhoto={currPhoto} 
                 setCurrPhoto={setCurrPhoto} 
@@ -174,8 +208,8 @@ const PhotoContainer = () => {
                 deleteAPhoto={deleteAPhoto}
                 deletePhotos={deletePhotos}
             />
-            { showModal && 
-                <Modal onConfirm={closeModal} message='사진을 선택해 주세요.' />
+            { modalOption.show && 
+                <Modal onConfirm={closeModal} message={modalOption.message} />
             }
         </>
     );

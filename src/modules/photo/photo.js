@@ -7,7 +7,7 @@ const GET_PHOTO_LIST_SUCCESS = 'photo/GET_PHOTO_LIST_SUCCESS';
 const GET_PHOTO_LIST_FAIL = 'photo/GET_PHOTO_LIST_FAIL';
 
 
-export const getPhotoList = createAction(GET_PHOTO_LIST, userEmail => userEmail);
+export const getPhotoList = createAction(GET_PHOTO_LIST, ({userEmail, startDate, endDate}) => ({userEmail, startDate, endDate}));
 export const getPhotoListSuccess = createAction(GET_PHOTO_LIST_SUCCESS, photoList => photoList);
 export const getPhotoListFail = createAction(GET_PHOTO_LIST_FAIL, error => error);
 
