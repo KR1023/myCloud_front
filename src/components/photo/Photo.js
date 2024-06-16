@@ -15,12 +15,14 @@ const Photo = ({
         dragDrop, 
         downloadAPhoto,
         downloadPhotos,
-        deleteAPhoto
+        deleteAPhoto,
+        deletePhotos
     }) => {
-
+    
     const startDateEl = useRef();
     const endDateEl = useRef();
-
+    const photoManageEl = useRef();
+    
     const [selectType, setSelectType] = useState('all');
     const [startDate, setStartDate] = useState(returnDateString(new Date()));
     const [endDate, setEndDate] = useState(returnDateString(new Date()));
@@ -85,8 +87,10 @@ const Photo = ({
 
     const selectPhotos = e => {
         setSelectable(!selectable);
+        
         if(selectable){
             const nodes = document.getElementsByClassName('photo_el');
+            photoManageEl.current.style.width = '120px';
             for(let i = 0; i < nodes.length; i++){
                 let childs = nodes[i].childNodes;
                 nodes[i].className += ' checked';
@@ -97,6 +101,7 @@ const Photo = ({
             }
         }else if(!selectable){
             const nodes = document.getElementsByClassName('photo_el');
+            photoManageEl.current.style.width = '80px';
             for(let i = 0; i < nodes.length; i++){
                 nodes[i].classList.remove('checked');
                 nodes[i].classList.remove('chosen');
@@ -120,16 +125,18 @@ const Photo = ({
                     <input type="date" ref={startDateEl} value={startDate} max={returnDateString(new Date())} onChange={onChangeDate} data-date='start' /> ~ 
                     <input type="date" ref={endDateEl} value={endDate} max={returnDateString(new Date())} onChange={onChangeDate} data-date='end' />
                 </div>
-                <div className='photo_manage'>
+                <div className='photo_manage' ref={photoManageEl}>
                     <button className="select_photo" onClick={selectPhotos}></button>
                     {   !selectable && 
+                        <div>
                             <button className="download_photo" onClick={downloadPhotos}></button>
+                            <button className="delete_photo" onClick={deletePhotos}></button>
+                        </div>
                     }
                     {
                         selectable && 
                         <button className="upload_photo" onClick={uploadPhoto}></button>
                     }
-                    <button className="delete_photo"></button>
                 </div>
             </div>
             <div className="photo_board">

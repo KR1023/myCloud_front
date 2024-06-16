@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useCallback} from 'react';
 import { getPhotoList } from '../../modules/photo/photo';
 import * as photoAPI from '../../lib/api/photo';
+import Modal from '../../components/common/Modal';
 
 const PhotoContainer = () => {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const PhotoContainer = () => {
 
     const [currPhoto, setCurrPhoto] = useState(null);
     const [chosenList, setChosenList] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     const uploadPhoto = useCallback(e => {
         const fileInput = document.createElement('input');
@@ -84,7 +86,8 @@ const PhotoContainer = () => {
 
     const downloadPhotos = useCallback(async () => {
         if(!chosenList || chosenList.length === 0){
-            console.log('선택된 사진 없음');
+            setShowModal(true);
+            return;
         }
 
         try{
@@ -128,6 +131,27 @@ const PhotoContainer = () => {
         }
     }
 
+    const deletePhotos = useCallback(async () => {
+        if(!chosenList || chosenList.length === 0){
+            setShowModal(true);
+            return;
+        }
+        try{
+            await photoAPI.deletePhotos(chosenList);
+            dispatch(getPhotoList(user.email));
+            setChosenList([]);
+
+        }catch(e){
+            console.error(e);
+        }finally{
+            setCurrPhoto(null);
+        }
+    }, [user, chosenList, dispatch]);
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
     useEffect(() => {
         if(user)
             dispatch(getPhotoList(user.email));
@@ -135,19 +159,25 @@ const PhotoContainer = () => {
 
 
     return(
-        <Photo 
-            user={user}
-            photoList={photoList}
-            currPhoto={currPhoto} 
-            setCurrPhoto={setCurrPhoto} 
-            chosenList={chosenList}
-            setChosenList={setChosenList}
-            uploadPhoto={uploadPhoto} 
-            dragDrop={dragDrop} 
-            downloadAPhoto={downloadAPhoto} 
-            downloadPhotos={downloadPhotos}
-            deleteAPhoto={deleteAPhoto}
-        />
+        <>
+            <Photo 
+                user={user}
+                photoList={photoList}
+                currPhoto={currPhoto} 
+                setCurrPhoto={setCurrPhoto} 
+                chosenList={chosenList}
+                setChosenList={setChosenList}
+                uploadPhoto={uploadPhoto} 
+                dragDrop={dragDrop} 
+                downloadAPhoto={downloadAPhoto} 
+                downloadPhotos={downloadPhotos}
+                deleteAPhoto={deleteAPhoto}
+                deletePhotos={deletePhotos}
+            />
+            { showModal && 
+                <Modal onConfirm={closeModal} message='사진을 선택해 주세요.' />
+            }
+        </>
     );
 };
 

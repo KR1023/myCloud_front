@@ -82,7 +82,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 180px;
+            width: 80px;
             height: 35px;
             box-sizing: border-box;
             margin-right: 30px;
@@ -108,7 +108,9 @@
                     background-image: url('../../../svgs/photo/upload_hover.svg');
                 }
             }
-            .download_photo{
+            .download_photo
+            {
+                margin-right: 7px;
                 background-image: url('../../../svgs/photo/download.svg');   
                 &:hover{
                     background-image: url('../../../svgs/photo/download_hover.svg');

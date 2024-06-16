@@ -9,3 +9,5 @@ export const getPhotoList = (userEmail) => client.get(`/photo/list/${userEmail}`
 // export const downloadPhotos = (photoIdArr) => client.post('/photo/download/photos', photoIdArr);
 
 export const deletePhoto = (photo_id) => client.delete(`/photo/delete/${photo_id}`);
+
+export const deletePhotos = (idList) => client.post('/photo/delete-photos', idList);
