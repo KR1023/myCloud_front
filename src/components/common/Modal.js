@@ -11,6 +11,7 @@ const Background = styled.div`
     justify-content: center;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.3);
+    z-index: 30;
 `;
 const ModalBox = styled.div`
     width: 380px;

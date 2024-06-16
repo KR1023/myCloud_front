@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { initialize, changeField, createMemo} from "../../modules/memo/write";
 import { memoList, getMemo, initMemo, deleteMemo } from "../../modules/memo/memo";
 import { updateMemo } from "../../modules/memo/write";
+import Modal from '../../components/common/Modal';
 
 const MemoContainer = () => {
     const dispatch = useDispatch();
@@ -20,11 +21,18 @@ const MemoContainer = () => {
     }));
 
     const [subject, setSubject] = useState('');
+    const [searchText, setSearchText] = useState('');
+    const [modalOption, setModalOption] = useState(
+        {
+            show: false,
+            message: ''
+        }
+    );
 
     const titleInput = useRef();
 
     useEffect(() => {
-        dispatch(memoList(userEmail));
+        dispatch(memoList({userEmail}));
         return(() => {
             dispatch(initialize());
         });
@@ -48,6 +56,15 @@ const MemoContainer = () => {
         dispatch(getMemo(memoId));
     }
 
+    const searchMemo = useCallback(e => {
+        if(searchText.trim().length !== 0 && searchText.trim().length < 2){
+            setModalOption({show: true, message: '두 글자 이상 입력해 주세요.'});
+            return;
+        }
+
+        dispatch(memoList({userEmail, searchText}));
+    }, [userEmail, searchText, dispatch]);
+
     useEffect(() => {
         if(memo)
             dispatch(changeField({key: 'title', value: memo.subject}));
@@ -70,22 +87,35 @@ const MemoContainer = () => {
             setSubject('');
         }
     }, [memo, userEmail, dispatch]);
-    
+
+    const closeModal = useCallback(() => {
+        setModalOption({show: false, message: ''});
+    }, []);
+
     return(
-        <Memo 
-            title={title}
-            body={body}
-            titleInput={titleInput}
-            onInitMemo={onInitMemo}
-            selectMemo={selectMemo}
-            onSaveOrUpdate={onSaveOrUpdate}
-            onChangeTitle={onChangeTitle}
-            onDeleteMemo={onDeleteMemo}
-            subject={subject}
-            setSubject={setSubject}
-            memo={memo}
-            memos={memos}
+        <>
+            <Memo 
+                searchText={searchText}
+                setSearchText={setSearchText}
+                searchMemo={searchMemo}
+                title={title}
+                body={body}
+                titleInput={titleInput}
+                onInitMemo={onInitMemo}
+                selectMemo={selectMemo}
+                onSaveOrUpdate={onSaveOrUpdate}
+                onChangeTitle={onChangeTitle}
+                onDeleteMemo={onDeleteMemo}
+                subject={subject}
+                setSubject={setSubject}
+                memo={memo}
+                memos={memos}
             />
+            {   modalOption.show &&
+                <Modal onConfirm={closeModal} message={modalOption.message} />
+            }
+            
+        </>
     );
 };
 

@@ -12,7 +12,7 @@ const INIT_MEMO = 'memo/INIT_MEMO';
 
 const DELETE_MEMO = 'memo/DELETE_MEMO';
 
-export const memoList = createAction(MEMO_LIST, userEmail => ({userEmail}));
+export const memoList = createAction(MEMO_LIST, ({userEmail, searchText}) => ({userEmail, searchText}));
 export const memoListSuccess = createAction(MEMO_LIST_SUCCESS, memos => memos);
 export const getMemo = createAction(GET_MEMO, memoId => memoId);
 export const getMemoSuccess = createAction(GET_MEMO_SUCCESS, memo => memo);

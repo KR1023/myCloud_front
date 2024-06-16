@@ -3,6 +3,9 @@ import QuillEditorContainer from '../../containers/memo/QuillEditorContainer';
 import returnDateString from '../../lib/returnDateString';
 
 const Memo = ({
+        searchText,
+        setSearchText,
+        searchMemo,
         onChangeTitle, 
         onInitMemo, 
         onSaveOrUpdate, 
@@ -28,12 +31,21 @@ const Memo = ({
         setSubject(e.target.value);
     }
 
+    const changeSearchText = e => {
+        setSearchText(e.target.value);
+    }
+
+    const searchMemoWithEnter = e => {
+        if(e.key === 'Enter')
+            searchMemo();
+    }
+
     return(
         <div className="memo">
             <div className="list">
                 <div className="search">
-                    <input type="text" name="search_memo" placeholder="메모 찾기"/>
-                    <button></button>
+                    <input type="text" name="search_memo" placeholder="메모 찾기" value={searchText} onChange={changeSearchText} maxLength={10} onKeyDown={searchMemoWithEnter}/>
+                    <button onClick={searchMemo}></button>
                 </div>
                 <div className="memo_list">
                     { memos && 
