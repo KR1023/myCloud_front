@@ -48,7 +48,6 @@ const PhotoContainer = () => {
         setSelectOption({...selectOption, selectType: e.target.value});
     }, [selectOption, setSelectOption]);
 
-
     const uploadPhoto = useCallback(e => {
         const fileInput = document.createElement('input');
         fileInput.setAttribute("type", "file");
@@ -67,12 +66,15 @@ const PhotoContainer = () => {
 
             try{
                 const response = await photoAPI.uploadPhoto(formData);
-                dispatch(getPhotoList(user.email));
+                if(selectOption.selectType === 'date' && selectOption.startDate && selectOption.endDate)
+                    dispatch(getPhotoList({userEmail: user.email, startDate: selectOption.startDate, endDate: selectOption.endDate}));
+                else
+                    dispatch(getPhotoList({userEmail: user.email}));
             }catch(e){
                 console.error(e);
             }
         });
-    }, [user, dispatch]);
+    }, [user, selectOption, dispatch]);
 
     const dragDrop = useCallback(async e => {
         e.preventDefault();
@@ -88,11 +90,14 @@ const PhotoContainer = () => {
 
         try{
             const response = await photoAPI.uploadPhoto(formData);
-            dispatch(getPhotoList(user.email));
+            if(selectOption.selectType === 'date' && selectOption.startDate && selectOption.endDate)
+                dispatch(getPhotoList({userEmail: user.email, startDate: selectOption.startDate, endDate: selectOption.endDate}));
+            else
+                dispatch(getPhotoList({userEmail: user.email}));
         }catch(e){
             console.error(e);
         }
-    }, [user, dispatch]);
+    }, [user, selectOption, dispatch]);
 
     const downloadAPhoto = useCallback(async currPhoto => {
         try{
@@ -153,7 +158,11 @@ const PhotoContainer = () => {
         try{
             const response = await photoAPI.deletePhoto(currPhoto.photo_id);
             if(response.data.code === 201){
-                dispatch(getPhotoList(user.email));
+                await photoAPI.deletePhotos(chosenList);
+                if(selectOption.selectType === 'date' && selectOption.startDate && selectOption.endDate)
+                    dispatch(getPhotoList({userEmail: user.email, startDate: selectOption.startDate, endDate: selectOption.endDate}));
+                else
+                    dispatch(getPhotoList({userEmail: user.email}));
             }
         }catch(e){
             console.error(e);
@@ -169,7 +178,10 @@ const PhotoContainer = () => {
         }
         try{
             await photoAPI.deletePhotos(chosenList);
-            dispatch(getPhotoList(user.email));
+            if(selectOption.selectType === 'date' && selectOption.startDate && selectOption.endDate)
+                dispatch(getPhotoList({userEmail: user.email, startDate: selectOption.startDate, endDate: selectOption.endDate}));
+            else
+                dispatch(getPhotoList({userEmail: user.email}));
             setChosenList([]);
 
         }catch(e){
@@ -177,7 +189,7 @@ const PhotoContainer = () => {
         }finally{
             setCurrPhoto(null);
         }
-    }, [user, chosenList, dispatch]);
+    }, [user, chosenList, selectOption, dispatch]);
 
     const closeModal = () => {
         setModalOption({message: '', show: false});
