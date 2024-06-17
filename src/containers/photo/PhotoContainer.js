@@ -60,8 +60,16 @@ const PhotoContainer = () => {
             
             const formData = new FormData();
             formData.append('userEmail', user.email);
+            const imgReg = /^image\/(png||jpg||jpeg)$/g;
+
             for(const file of files){
-                formData.append('photo', file);
+                const type = file.type;
+                if(imgReg.test(type))
+                    formData.append('photo', file);
+                else{
+                    setModalOption({show: true, message: '이미지 파일만 업로드해 주세요.'});
+                    return;
+                }
             }
 
             try{
@@ -158,7 +166,6 @@ const PhotoContainer = () => {
         try{
             const response = await photoAPI.deletePhoto(currPhoto.photo_id);
             if(response.data.code === 201){
-                await photoAPI.deletePhotos(chosenList);
                 if(selectOption.selectType === 'date' && selectOption.startDate && selectOption.endDate)
                     dispatch(getPhotoList({userEmail: user.email, startDate: selectOption.startDate, endDate: selectOption.endDate}));
                 else
