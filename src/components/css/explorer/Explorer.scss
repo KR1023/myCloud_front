@@ -1,0 +1,255 @@
+.workspace_explorer{
+    width: 100%;
+    height: 100%;
+    .explorer_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 45px;
+        box-sizing: border-box;
+        border-bottom: 1px solid gray;
+
+        .explorer_search{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 39b0px;
+            height: 35px;
+            box-sizing: border-box;
+            // border: 1px solid red;
+            margin-left: 20px;
+            input{
+                width: 300px;
+                height: 30px;
+                outline: none;
+                border: none;
+                border-bottom: 1px solid #C7C7C7;
+                font-size: 1.25rem;
+                font-family: 'NanumSquareRoundBold';
+                box-sizing: border-box;
+                padding: 10px;
+            }
+            button{
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+                background: none;
+                background-size: 30px 30px;
+                background-repeat: no-repeat;
+                transition: .3s;
+                &.search_file{
+                    background-image: url('../../../svgs/explorer/search_file.svg');
+                    &:hover{
+                        background-image: url('../../../svgs/explorer/search_file_hover.svg');
+                    }
+                }
+                &.to_top{
+                    background-image: url('../../../svgs/explorer/top.svg');
+                    &:hover{
+                        background-image: url('../../../svgs/explorer/top_hover.svg');
+                    }
+                }
+            }
+        }
+
+        .file_manage{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80px;
+            height: 35px;
+            box-sizing: border-box;
+            margin-right: 30px;
+            button{
+                background: none;
+                width: 35px;
+                height: 35px;
+                background-size: 35px 35px;
+                background-repeat: no-repeat;
+                background-position: center center;
+                cursor: pointer;
+                transition: .3s;
+            }
+            .select_file{
+                background-image: url('../../../svgs/photo/check_box.svg');
+                &:hover{
+                    background-image: url('../../../svgs/photo/check_box_hover.svg');
+                }
+            }
+            .create_dir{
+                background-image: url('../../../svgs/explorer/create_folder.svg');   
+                &:hover{
+                    background-image: url('../../../svgs/explorer/create_folder_hover.svg');   
+                }
+            }
+            .upload_file{
+                background-image: url('../../../svgs/photo/upload.svg');   
+                &:hover{
+                    background-image: url('../../../svgs/photo/upload_hover.svg');
+                }
+            }
+            .download_file
+            {
+                margin-right: 7px;
+                background-image: url('../../../svgs/photo/download.svg');   
+                &:hover{
+                    background-image: url('../../../svgs/photo/download_hover.svg');
+                }
+            }
+            .delete_file{
+                background-image: url('../../../svgs/photo/delete.svg');
+                &:hover{
+                    background-image: url('../../../svgs/photo/delete_hover.svg');
+                }
+            }
+
+        }
+    }
+
+    .explorer_board{
+        display: flex;
+        flex-wrap: nowrap;
+        width: 100%;
+        height: 92%;
+        font-family: 'NanumSquareRoundBold';
+        .files{
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            width: 85%;
+            min-width: 800px;
+            height: 100%;
+            overflow-y: auto;
+            .no_files{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5rem;
+            }
+            .file_el{
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                width: 120px;
+                height: 110px;
+                margin: 20px;
+                border-radius: 5px;
+                box-sizing: border-box;
+                cursor: pointer;
+                &.top{
+                    span{
+                        width: 100%;
+                    }
+                }
+                &.checked.chosen::before{
+                    content: url('../../../svgs/photo/checkbox_true.svg');
+                    position: relative;
+                    display: inline-block;
+                    left: -61px;
+                    top: -10px;
+                    z-index: 5;
+                }
+                &.checked.chosen{
+                    border: 2px solid #5DADE2;
+                }
+                img{
+                    width: 100px;
+                    height: 70px;
+                    
+                    &.checked{
+                        position: relative;
+                        left: 0;
+                        top: -15px;
+                    }
+                }
+                .file_name{
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    font-family: 'NanumSquareRoundBold';
+                    text-align: center;
+                    &.checked{
+                        position: relative;
+                        top: -8px;
+                    }
+                }
+                
+                &:hover{
+                    box-shadow: rgba(0, 0, 0, .7) 0px 5px 10px;
+                }
+
+                &.checked::before{
+                    position: relative;
+                    display: inline-block;
+                    content: url('../../../svgs/photo/checkbox_false.svg');
+                    left: -61px;
+                    top: -10px;
+                    z-index: 5;
+                }
+            }
+        }
+
+        .file_attribute{
+            display: flex;
+            justify-content: center;
+            align-content: flex-start;
+            flex-wrap: wrap;
+            width: 15%;
+            min-width: 250px;
+            height: 100%;
+            border-left: 1px solid #C8C8C8;
+            box-sizing: border-box;
+            .no_file{
+                width: 100%;
+                margin-top: 40px;
+                vertical-align: middle;
+                text-align: center;
+            }
+            .file_container{
+                width: 100%;
+                margin-top: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            img{
+                width:80%;
+            }
+            p{
+                width: 100%;
+                font-family: 'NanumSquareRoundExtraBold';
+                margin-left: 10px;
+                span{
+                    font-family: 'sans-serif';
+                }
+                button{
+                    background: none;
+                    width: 35px;
+                    height: 35px;
+                    background-size: 35px 35px;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    cursor: pointer;
+                    transition: .3s;
+                    &.button_download{
+                        background-image: url('../../../svgs/photo/download.svg');   
+                        &:hover{
+                            background-image: url('../../../svgs/photo/download_hover.svg');
+                        }
+                    }
+                    &.button_delete{
+                        background-image: url('../../../svgs/photo/delete.svg');
+                        &:hover{
+                            background-image: url('../../../svgs/photo/delete_hover.svg');
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+
+    
+}

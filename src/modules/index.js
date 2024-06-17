@@ -4,6 +4,7 @@ import user, { userSaga } from "./auth/user";
 import write, { writeSaga } from './memo/write';
 import memo, { memoSaga } from './memo/memo';
 import photo, { photoSaga } from './photo/photo';
+import explorer, { explorerSaga } from './explorer/explorer';
 import { all } from "redux-saga/effects";
 
 const rootReducer = combineReducers({
@@ -11,11 +12,12 @@ const rootReducer = combineReducers({
     user,
     write,
     memo,
-    photo
+    photo,
+    explorer
 });
 
 export function* rootSaga(){
-    yield all([authSaga(), userSaga(), writeSaga(), memoSaga(), photoSaga()]);
+    yield all([authSaga(), userSaga(), writeSaga(), memoSaga(), photoSaga(), explorerSaga()]);
 }
 
 export default rootReducer;

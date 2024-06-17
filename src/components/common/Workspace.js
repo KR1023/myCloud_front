@@ -3,6 +3,7 @@ import '../css/Workspace.scss';
 import close from '../../svgs/close.svg';
 import MemoContainer from '../../containers/memo/MemoContainer';
 import PhotoContainer from '../../containers/photo/PhotoContainer';
+import ExplorerContainer from '../../containers/explorer/ExplorerContainer';
 
 
 const Workspace = ({title, closeWorkspace}) => {
@@ -62,6 +63,10 @@ const Workspace = ({title, closeWorkspace}) => {
                 {
                     title === '사진' &&
                     <PhotoContainer />
+                }
+                {
+                    title === '탐색기' && 
+                    <ExplorerContainer />
                 }
             </div>
         </div>

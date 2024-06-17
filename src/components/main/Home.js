@@ -3,6 +3,7 @@ import { useCallback, useState, useEffect } from 'react';
 import '../css/Home.scss';
 import memo from '../../images/memo/memo_icon_2.png';
 import photo from '../../images/photo/photo_icon.png';
+import explorer from '../../images/explorer/explorer_icon.png';
 import Workspace from '../common/Workspace';
 
 const Home = ({user}) => {
@@ -30,7 +31,7 @@ const Home = ({user}) => {
                     <span>사진</span>
                 </div>
                 <div className="container explorer" id="icon_explorer" onClick={onClickIcon} data-app='explorer'>
-                    <img src={memo} alt="explorer_icon" width="80" height="80" data-app='explorer' />
+                    <img src={explorer} alt="explorer_icon" width="80" height="80" data-app='explorer' />
                     <span>탐색기</span>
                 </div>
             </div>
