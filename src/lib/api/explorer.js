@@ -7,3 +7,5 @@ export const createDirectory = ({userEmail, currDir, dirName}) => client.post('/
 export const getFileAttr = (currFile) => client.post(`/file/file-attr`, currFile);
 
 export const renameFile = ({oldPath, dirPath, newName}) => client.patch('/file/rename', ({oldPath, dirPath, newName}));
+
+export const uploadFile = (formData) => client.post('/file/upload', formData);

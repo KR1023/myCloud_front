@@ -89,10 +89,19 @@ const PhotoContainer = () => {
         e.stopPropagation();
 
         const files = e.dataTransfer.files;
-            
+        const imgReg = /^image\/(png||jpg||jpeg)$/g;
+
         const formData = new FormData();
         formData.append('userEmail', user.email);
+
         for(const file of files){
+            const type = file.type;
+            if(imgReg.test(type))
+                formData.append('photo', file);
+            else{
+                setModalOption({show: true, message: '이미지 파일만 업로드해 주세요.'});
+                return;
+            }
             formData.append('photo', file);
         }
 

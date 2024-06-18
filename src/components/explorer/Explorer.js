@@ -16,7 +16,9 @@ const Explorer = ({
         closeContextMenu, 
         showAttr, 
         currFileAttr,
-        onChangeTargetName
+        onChangeTargetName,
+        onDownloadFile,
+        onUploadFile
         }) => {
     
     return(
@@ -33,7 +35,7 @@ const Explorer = ({
                 <div className='file_manage' >
                     {/* <button className="select_file" ></button> */}
                     <button className="create_dir" onClick={onCreateDir}></button>
-                    <button className="upload_file"></button>
+                    <button className="upload_file" onClick={onUploadFile}></button>
                     
                 </div>
             </div>
@@ -47,7 +49,7 @@ const Explorer = ({
                     {
                         (!loading && currDir !== '/') &&
                         <div className="file_el top" onClick={toTop}>
-                            <img src={folderTop} alt="sample_img" />
+                            <img src={folderTop} alt="image_top" />
                             <span className="file_name" >..</span>
                         </div>
                     }

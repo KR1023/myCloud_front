@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { clearError, setError, getDirList, createDir, getFileAttr, clearFileAttr, changeTargetName } from '../../modules/explorer/explorer';
 import Modal from '../../components/common/Modal';
+import * as expAPI from '../../lib/api/explorer';
 
 export const ExplorerContainer = () => {
     const dispatch = useDispatch();
@@ -93,6 +94,14 @@ export const ExplorerContainer = () => {
             targetLeft = targetRect.left;
         }
 
+        if(file.isDir){
+            ctxRef.current.childNodes[2].style.display = 'none';
+            ctxRef.current.style.height = '90px';
+        }else{
+            ctxRef.current.childNodes[2].style.display = 'block';
+            ctxRef.current.style.height = '120px';
+        }
+        
         ctxRef.current.style.top = `${targetTop-80}px`;
         ctxRef.current.style.left = `${targetLeft-60}px`;
         
@@ -127,6 +136,36 @@ export const ExplorerContainer = () => {
         setCurrFile(null);
     }, [user, currFile, currDir, inputData, dispatch]);
 
+    const onDownloadFile = useCallback(() => {
+        console.log(currFile);
+    }, [currFile]);
+
+    const onUploadFile = useCallback((e) => {
+        const fileInput = document.createElement('input');
+        fileInput.setAttribute("type", "file");
+        // fileInput.setAttribute("accept", ".jpg,.jpeg,.png");
+        fileInput.setAttribute("multiple", false);
+        fileInput.click();
+
+        fileInput.addEventListener('change', async() => {
+            const file = fileInput.files[0];
+            
+            const formData = new FormData();
+            formData.append('userEmail', user.email);
+            formData.append('currDir', currDir);
+            formData.append('file', file);
+
+            try{
+                const response = await expAPI.uploadFile(formData);
+                if(response.status === 200){
+                    dispatch(getDirList({userEmail: user.email, currDir}));
+                }
+            }catch(e){
+                console.error(e);
+            }
+        });
+    }, [user, currDir, dispatch]);
+
     useEffect(() => {
         dispatch(getDirList({userEmail: user.email, currDir}));
         return (() => {
@@ -150,6 +189,8 @@ export const ExplorerContainer = () => {
                 showAttr={showAttr} 
                 currFileAttr={currFileAttr}
                 onChangeTargetName={onChangeTargetName}
+                onDownloadFile={onDownloadFile}
+                onUploadFile={onUploadFile}
             />
 
             { (modalOption.show && modalOption.type === 'createDir') && 
