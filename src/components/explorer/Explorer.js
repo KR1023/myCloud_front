@@ -80,7 +80,7 @@ const Explorer = ({
                         <div className="context_menu" ref={ctxRef} onContextMenu={(e) => e.preventDefault()}>
                             <div onClick={showAttr}>속성</div>
                             <div onClick={onChangeTargetName}>이름 변경</div>
-                            <div>다운로드</div>
+                            <div onClick={onDownloadFile}>다운로드</div>
                             <div>삭제</div>
                         </div>
                     }

@@ -136,9 +136,36 @@ export const ExplorerContainer = () => {
         setCurrFile(null);
     }, [user, currFile, currDir, inputData, dispatch]);
 
-    const onDownloadFile = useCallback(() => {
-        console.log(currFile);
-    }, [currFile]);
+    const onDownloadFile = useCallback(async () => {
+        try{
+            // const response = await photoAPI.downloadPhoto(currPhoto.photo_id);
+            const response = await fetch(`http://localhost:4000/file/download`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userEmail: user.email,
+                    filePath: currFile.filePath
+                })
+            });
+
+            const file = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(file);
+
+            const a = document.createElement('a');
+            document.body.appendChild(a);
+            a.download = currFile.element;
+            a.href = downloadUrl;
+
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(downloadUrl);
+
+        }catch(e){
+            console.error(e);
+        }
+    }, [user, currFile]);
 
     const onUploadFile = useCallback((e) => {
         const fileInput = document.createElement('input');
