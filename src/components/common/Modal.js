@@ -51,22 +51,39 @@ const ModalBox = styled.div`
     }
 `;
 
-const Modal = ({type = 'info', onConfirm, proceed,  message}) => {
+const InputEl = styled.input`
+    width: 100%;
+    height: 30px;
+    font-size: 1.15rem;
+    outline: none;
+    border: 0;
+    box-sizing: border-box;
+    padding: 8px;
+    border-bottom: 1px solid #C8C8C8;
+`;
+
+const Modal = ({type = 'info', onConfirm, proceed, message, inputData, onChangeInput}) => {
+    
     return(
         <Background>
             <ModalBox>
                 <div className="content"><span>{message}</span></div>
+                {
+                    type === "createDir" && 
+                    <div><InputEl value={inputData} onChange={onChangeInput} maxLength={10} /></div>
+                }
                 <div className="btn_container">
                     {
                         type === 'info' && 
                         <Button onClick={onConfirm}>확인</Button>
                     }
                     { type !== 'info' &&
-                        <Button onClick={proceed}>확인</Button>
+                        <Button onClick={proceed} style={{marginRight: "30px"}}>확인</Button>
                     }
                     { type !== 'info' &&
                         <Button onClick={onConfirm}>취소</Button>
                     }
+
                 </div>
             </ModalBox>
         </Background>

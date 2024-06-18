@@ -2,12 +2,12 @@ import '../css/explorer/Explorer.scss';
 import folder from '../../images/explorer/explorer_folder_2.png';
 import folderTop from '../../images/explorer/explorer_folder_top.png';
 import iconTxt from '../../images/explorer/icon_txt.png';
-import currDirImg from '../../svgs/explorer/curr_dir.svg';
+import returnFileSize from '../../lib/returnFileSize';
 
-const Explorer = ({loading, fileList, currDir, toTop, currFile, onClickFile}) => {
-
+const Explorer = ({ctxRef, loading, fileList, currDir, toTop, currFile, onClickFile, onCreateDir, showContextMenu, closeContextMenu, showAttr, currFileAttr}) => {
+    
     return(
-        <div className="workspace_explorer">
+        <div className="workspace_explorer" onClick={closeContextMenu}>
             <div className="explorer_header">
                 <div className="explorer_search">
                     <input maxLength={30} />
@@ -19,7 +19,7 @@ const Explorer = ({loading, fileList, currDir, toTop, currFile, onClickFile}) =>
                 </div>
                 <div className='file_manage' >
                     {/* <button className="select_file" ></button> */}
-                    <button className="create_dir"></button>
+                    <button className="create_dir" onClick={onCreateDir}></button>
                     <button className="upload_file"></button>
                     
                 </div>
@@ -45,22 +45,42 @@ const Explorer = ({loading, fileList, currDir, toTop, currFile, onClickFile}) =>
                     }
                     {   (!loading && fileList) &&
                         fileList.map(file => (
-                            <div className="file_el" key={file.element} onClick={(e) => {onClickFile(e, file)}}>
+                            <div className="file_el" key={file.element} onClick={(e) => {onClickFile(e, file)}} onContextMenu={(e) => showContextMenu(e, file)}>
                                 {   file.isDir && 
                                     <img src={folder} alt="sample_img" />
                                 }
                                 {   (!file.isDir && file.ext === '.txt') &&
                                         <img src={iconTxt} alt="sample_img" />
                                 }
+                                {   (!file.isDir && file.ext === '.mp3') &&
+                                        <img src={iconTxt} alt="sample_img" />
+                                }
                                 <span className="file_name">{file.element}</span>
                             </div>
                         ))
                     }
+                    {
+                        <div className="context_menu" ref={ctxRef} onContextMenu={(e) => e.preventDefault()}>
+                            <div onClick={showAttr}>속성</div>
+                            <div>이름 변경</div>
+                            <div>다운로드</div>
+                            <div>삭제</div>
+                        </div>
+                    }
                 </div>
-                <div className="file_attribute">
-                    { !currFile && 
-                        <div className="no_file">
+                <div className="file_attribute" >
+                    { !currFileAttr && 
+                        <div className="no_file">   
                             <p>선택된 항목이 없습니다.</p>
+                        </div>
+                    }
+                    {
+                        currFileAttr &&
+                        <div className="file_container">
+                            <p>이름 : {currFileAttr.filename}</p>
+                            <p>크기 : {returnFileSize(currFileAttr.size)}</p>
+                            <p>생성일 : {new Date(currFileAttr.birthtime).toLocaleString()}</p>
+                            <p>변경일 : {new Date(currFileAttr.ctime).toLocaleString()}</p>
                         </div>
                     }
                 </div>

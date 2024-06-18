@@ -16,9 +16,9 @@ const ButtonBlock = styled.button`
     }
 `;
 
-const Button = ({onClick, children}) => {
+const Button = ({onClick, children, style}) => {
     return(
-        <ButtonBlock onClick={onClick}>{children}</ButtonBlock>
+        <ButtonBlock onClick={onClick} style={style}>{children}</ButtonBlock>
     );
 };
 
