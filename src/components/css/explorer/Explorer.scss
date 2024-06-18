@@ -14,11 +14,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 39b0px;
+            width: 600px;
             height: 35px;
             box-sizing: border-box;
             // border: 1px solid red;
             margin-left: 20px;
+            font-family: 'NanumSquareRoundBold';
             input{
                 width: 300px;
                 height: 30px;
@@ -26,7 +27,6 @@
                 border: none;
                 border-bottom: 1px solid #C7C7C7;
                 font-size: 1.25rem;
-                font-family: 'NanumSquareRoundBold';
                 box-sizing: border-box;
                 padding: 10px;
             }
@@ -51,6 +51,20 @@
                     }
                 }
             }
+            .curr_dir{
+                input{
+                    width: 200px;
+                    padding: 2px;
+                    padding-left: 10px;
+                    &:disabled{
+                        background: none;
+                    }
+                }
+                span{
+                    font-family: "NanumSquareRoundBold";
+                }
+            }
+           
         }
 
         .file_manage{
