@@ -13,6 +13,7 @@ const CREATE_DIR = 'exp/CREATE_DIR';
 const GET_FILE_ATTR = 'exp/GET_FILE_ATTR';
 const GET_FILE_ATTR_SUCCESS = 'exp/GET_FILE/GET_FILE_ATTR_SUCCESS';
 const GET_FILE_ATTR_FAIL = 'exp/GET_FILE_ATTR_FAIL'
+const CLEAR_FILE_ATTR = 'exp/CLEAR_FILE_ATTR';
 
 export const setError = createAction(SET_ERROR, error => error);
 export const clearError = createAction(CLEAR_ERROR);
@@ -25,6 +26,7 @@ export const createDir = createAction(CREATE_DIR, ({userEmail, currDir, dirName}
 export const getFileAttr = createAction(GET_FILE_ATTR, currFile => currFile);
 export const getFileAttrSuccess = createAction(GET_FILE_ATTR_SUCCESS, fileAttr => fileAttr);
 export const getFileAttrFail = createAction(GET_FILE_ATTR_FAIL);
+export const clearFileAttr = createAction(CLEAR_FILE_ATTR);
 
 function* getDirListSaga(action){
     try{
@@ -37,6 +39,8 @@ function* getDirListSaga(action){
     }catch(e){
         console.error(e);
         yield put(setError(e));
+    }finally{
+        yield put(clearFileAttr());
     }
 }
 
@@ -99,6 +103,10 @@ export const explorer = handleActions(
         [GET_FILE_ATTR_FAIL]: (state, {payload: error}) => ({
             ...state,
             error
+        }),
+        [CLEAR_FILE_ATTR]: state => ({
+            ...state,
+            currFileAttr: null
         }),
         [LOADING]: (state) => ({ 
             ...state,

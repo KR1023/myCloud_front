@@ -1,7 +1,7 @@
 import Explorer from "../../components/explorer/Explorer"
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { clearError, setError, getDirList, createDir, getFileAttr } from '../../modules/explorer/explorer';
+import { clearError, setError, getDirList, createDir, getFileAttr, clearFileAttr } from '../../modules/explorer/explorer';
 import Modal from '../../components/common/Modal';
 
 export const ExplorerContainer = () => {
@@ -109,6 +109,9 @@ export const ExplorerContainer = () => {
 
     useEffect(() => {
         dispatch(getDirList({userEmail: user.email, currDir}));
+        return (() => {
+            dispatch(clearFileAttr());
+        });
     }, [user, currDir, dispatch]);
 
     return(
