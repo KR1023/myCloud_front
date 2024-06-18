@@ -14,6 +14,7 @@ const GET_FILE_ATTR = 'exp/GET_FILE_ATTR';
 const GET_FILE_ATTR_SUCCESS = 'exp/GET_FILE/GET_FILE_ATTR_SUCCESS';
 const GET_FILE_ATTR_FAIL = 'exp/GET_FILE_ATTR_FAIL'
 const CLEAR_FILE_ATTR = 'exp/CLEAR_FILE_ATTR';
+const CHANGE_TARGET_NAME = 'exp/CHANGE_TARGET_NAME';
 
 export const setError = createAction(SET_ERROR, error => error);
 export const clearError = createAction(CLEAR_ERROR);
@@ -27,6 +28,7 @@ export const getFileAttr = createAction(GET_FILE_ATTR, currFile => currFile);
 export const getFileAttrSuccess = createAction(GET_FILE_ATTR_SUCCESS, fileAttr => fileAttr);
 export const getFileAttrFail = createAction(GET_FILE_ATTR_FAIL);
 export const clearFileAttr = createAction(CLEAR_FILE_ATTR);
+export const changeTargetName = createAction(CHANGE_TARGET_NAME);
 
 function* getDirListSaga(action){
     try{
@@ -69,10 +71,23 @@ function* getFileAttrSaga(action){
     }
 }
 
+function* changeTargetNameSaga(action){
+    try{
+        const response = yield call(expAPI.renameFile, action.payload);
+        if(response.status === 200){
+            yield put(getDirList(action.payload));
+        }
+    }catch(e){
+        console.error(e);
+        yield put(setError(e));
+    }
+}
+
 export function* explorerSaga(){
     yield takeLatest(GET_DIR_LIST, getDirListSaga);
     yield takeLatest(CREATE_DIR, createDirSaga);
     yield takeLatest(GET_FILE_ATTR, getFileAttrSaga);
+    yield takeLatest(CHANGE_TARGET_NAME, changeTargetNameSaga);
 }
 
 const initialState = ({
@@ -102,6 +117,7 @@ export const explorer = handleActions(
         }),
         [GET_FILE_ATTR_FAIL]: (state, {payload: error}) => ({
             ...state,
+            currFileAttr: null,
             error
         }),
         [CLEAR_FILE_ATTR]: state => ({

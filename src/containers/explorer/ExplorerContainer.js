@@ -1,7 +1,7 @@
 import Explorer from "../../components/explorer/Explorer"
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { clearError, setError, getDirList, createDir, getFileAttr, clearFileAttr } from '../../modules/explorer/explorer';
+import { clearError, setError, getDirList, createDir, getFileAttr, clearFileAttr, changeTargetName } from '../../modules/explorer/explorer';
 import Modal from '../../components/common/Modal';
 
 export const ExplorerContainer = () => {
@@ -20,6 +20,7 @@ export const ExplorerContainer = () => {
     const[modalOption, setModalOption] = useState(
         {
             show: false,
+            type: null,
             message: ''
         }
     );
@@ -49,7 +50,7 @@ export const ExplorerContainer = () => {
     }, [user, currDir, dispatch]);
 
     const onCreateDir = e => {
-        setModalOption({show: true, message: '디렉토리 이름을 입력해 주세요.'});
+        setModalOption({show: true, message: '디렉토리 이름을 입력해 주세요.', type: 'createDir'});
     };
     const confirmCreateDir = useCallback(e => {
         if(inputData === ''){
@@ -58,7 +59,7 @@ export const ExplorerContainer = () => {
             return;
         }
         dispatch(createDir({userEmail: user.email, currDir, dirName: inputData}));
-        setModalOption({show: false, message: ''});
+        setModalOption({show: false, message: '', type: null});
         setInputData('');
     }, [user, inputData, currDir, modalOption, dispatch]);
 
@@ -68,7 +69,7 @@ export const ExplorerContainer = () => {
     
 
     const onCancel = e => {
-        setModalOption({show: false});
+        setModalOption({show: false, type: null, message: ''});
         dispatch(clearError());
         setInputData('');
     }
@@ -99,13 +100,32 @@ export const ExplorerContainer = () => {
     }, []);
 
     const closeContextMenu = useCallback(() => {
-        setCurrFile(null);
+        // setCurrFile(null);
         ctxRef.current.style.visibility = 'hidden';
     }, []);
 
     const showAttr = useCallback(() => {
         dispatch(getFileAttr(currFile));
     }, [currFile, dispatch]);
+
+    const onChangeTargetName = useCallback(() => {
+        setInputData(currFile.element);
+        setModalOption({show: true, type: 'rename', message: '변경할 이름을 입력해 주세요.'});
+    }, [currFile]);
+
+    const confirmChangeTargetName = useCallback(() => {
+        dispatch(changeTargetName(
+            {
+                userEmail: user.email, 
+                currDir, 
+                oldPath: currFile.filePath, 
+                dirPath: currFile.dirPath, 
+                newName: inputData
+            }));
+        setModalOption({show: false, message: '', type: null});
+        setInputData('');
+        setCurrFile(null);
+    }, [user, currFile, currDir, inputData, dispatch]);
 
     useEffect(() => {
         dispatch(getDirList({userEmail: user.email, currDir}));
@@ -116,15 +136,32 @@ export const ExplorerContainer = () => {
 
     return(
         <>
-            <Explorer ctxRef={ctxRef} loading={loading} fileList={fileList} currDir={currDir} setCurrDir={setCurrDir} onClickFile={onClickFile} toTop={toTop} onCreateDir={onCreateDir} showContextMenu={showContextMenu} closeContextMenu={closeContextMenu} showAttr={showAttr} currFileAttr={currFileAttr}/>
-            { modalOption.show && 
+            <Explorer 
+                ctxRef={ctxRef} 
+                loading={loading} 
+                fileList={fileList}
+                currDir={currDir} 
+                setCurrDir={setCurrDir} 
+                onClickFile={onClickFile} 
+                toTop={toTop} 
+                onCreateDir={onCreateDir} 
+                showContextMenu={showContextMenu} 
+                closeContextMenu={closeContextMenu} 
+                showAttr={showAttr} 
+                currFileAttr={currFileAttr}
+                onChangeTargetName={onChangeTargetName}
+            />
+
+            { (modalOption.show && modalOption.type === 'createDir') && 
                 <Modal type={"createDir"} onConfirm={onCancel}  proceed={confirmCreateDir} message={modalOption.message} inputData={inputData} onChangeInput={onChangeInput} />
+            }
+            { (modalOption.show && modalOption.type === 'rename') && 
+                <Modal type={"createDir"} onConfirm={onCancel}  proceed={confirmChangeTargetName} message={modalOption.message} inputData={inputData} onChangeInput={onChangeInput} />
             }
             {
                 error &&
                 <Modal onConfirm={onCancel} message={error.message}/>
             }
-            
         </>
     );
 };

@@ -4,7 +4,20 @@ import folderTop from '../../images/explorer/explorer_folder_top.png';
 import iconTxt from '../../images/explorer/icon_txt.png';
 import returnFileSize from '../../lib/returnFileSize';
 
-const Explorer = ({ctxRef, loading, fileList, currDir, toTop, currFile, onClickFile, onCreateDir, showContextMenu, closeContextMenu, showAttr, currFileAttr}) => {
+const Explorer = ({
+        ctxRef, 
+        loading, 
+        fileList, 
+        currDir, 
+        toTop, 
+        onClickFile, 
+        onCreateDir, 
+        showContextMenu, 
+        closeContextMenu, 
+        showAttr, 
+        currFileAttr,
+        onChangeTargetName
+        }) => {
     
     return(
         <div className="workspace_explorer" onClick={closeContextMenu}>
@@ -57,12 +70,14 @@ const Explorer = ({ctxRef, loading, fileList, currDir, toTop, currFile, onClickF
                                 }
                                 <span className="file_name">{file.element}</span>
                             </div>
-                        ))
+                        )).sort((el) => {
+                            return !el.isDir;
+                        })
                     }
                     {
                         <div className="context_menu" ref={ctxRef} onContextMenu={(e) => e.preventDefault()}>
                             <div onClick={showAttr}>속성</div>
-                            <div>이름 변경</div>
+                            <div onClick={onChangeTargetName}>이름 변경</div>
                             <div>다운로드</div>
                             <div>삭제</div>
                         </div>
