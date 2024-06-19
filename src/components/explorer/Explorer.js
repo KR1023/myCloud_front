@@ -95,12 +95,15 @@ const Explorer = ({
                     {
                         currFileAttr &&
                         <div className="file_container">
-                            <p>이름 : {currFileAttr.filename}</p>
+                            <div className="file_name">이름 : {currFileAttr.filename}
+                                <div className="file_name tooltip"><div>{currFileAttr.filename}</div></div>
+                            </div>
                             {   currFileAttr.size !== 0 &&
-                                <p>크기 : {returnFileSize(currFileAttr.size)}</p>
+                                <div>크기 : {returnFileSize(currFileAttr.size)}</div>
                             }
-                            <p>생성일 : {new Date(currFileAttr.birthtime).toLocaleString()}</p>
-                            <p>변경일 : {new Date(currFileAttr.ctime).toLocaleString()}</p>
+                            <div>생성일 : {new Date(currFileAttr.birthtime).toLocaleString()}</div>
+                            <div>변경일 : {new Date(currFileAttr.ctime).toLocaleString()}</div>
+                            
                         </div>
                     }
                 </div>
