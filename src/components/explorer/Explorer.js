@@ -82,7 +82,7 @@ const Explorer = ({
                             <div onClick={showAttr}>속성</div>
                             <div onClick={onChangeTargetName}>이름 변경</div>
                             <div onClick={onDownloadFile}>다운로드</div>
-                            <div>삭제</div>
+                            <div onClick={onDeleteFile}>삭제</div>
                         </div>
                     }
                 </div>

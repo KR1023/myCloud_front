@@ -1,7 +1,7 @@
 import Explorer from "../../components/explorer/Explorer"
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { clearError, setError, getDirList, createDir, getFileAttr, clearFileAttr, changeTargetName } from '../../modules/explorer/explorer';
+import { clearError, setError, getDirList, createDir, getFileAttr, clearFileAttr, changeTargetName, deleteFile } from '../../modules/explorer/explorer';
 import Modal from '../../components/common/Modal';
 import * as expAPI from '../../lib/api/explorer';
 
@@ -172,7 +172,6 @@ export const ExplorerContainer = () => {
         const fileInput = document.createElement('input');
         fileInput.setAttribute("type", "file");
         // fileInput.setAttribute("accept", ".jpg,.jpeg,.png");
-        fileInput.setAttribute("multiple", false);
         fileInput.click();
 
         fileInput.addEventListener('change', async() => {
@@ -195,8 +194,9 @@ export const ExplorerContainer = () => {
     }, [user, currDir, dispatch]);
 
     const onDeleteFile = useCallback(() => {
-        console.log('delete file');
-    }, []);
+        if(currFile)
+            dispatch(deleteFile({userEmail: user.email, currDir, filePath: currFile.filePath}));
+    }, [user, currDir, currFile, dispatch]);
 
 
     useEffect(() => {
@@ -226,17 +226,15 @@ export const ExplorerContainer = () => {
                 onDownloadFile={onDownloadFile}
                 onUploadFile={onUploadFile}
                 onDeleteFile={onDeleteFile}
-                
             />
 
-            { (modalOption.show && modalOption.type === 'createDir') && 
+            {   (modalOption.show && modalOption.type === 'createDir') && 
                 <Modal type={"createDir"} onConfirm={onCancel}  proceed={confirmCreateDir} message={modalOption.message} inputData={inputData} onChangeInput={onChangeInput} />
             }
-            { (modalOption.show && modalOption.type === 'rename') && 
+            {   (modalOption.show && modalOption.type === 'rename') && 
                 <Modal type={"createDir"} onConfirm={onCancel}  proceed={confirmChangeTargetName} message={modalOption.message} inputData={inputData} onChangeInput={onChangeInput} />
             }
-            {
-                error &&
+            {   error &&
                 <Modal onConfirm={onCancel} message={error.message}/>
             }
         </>

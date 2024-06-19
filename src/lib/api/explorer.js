@@ -9,3 +9,5 @@ export const getFileAttr = (currFile) => client.post(`/file/file-attr`, currFile
 export const renameFile = ({oldPath, dirPath, newName}) => client.patch('/file/rename', ({oldPath, dirPath, newName}));
 
 export const uploadFile = (formData) => client.post('/file/upload', formData);
+
+export const deleteFile = (filePath) => client.post('/file/delete', filePath);
