@@ -9,6 +9,7 @@ export const ExplorerContainer = () => {
     const dispatch = useDispatch();
 
     const ctxRef = useRef();
+    const attrRef = useRef();
 
     const { user, error, loading, fileList, currFileAttr } = useSelector(({user, explorer}) => ({
         user: user.user,
@@ -193,6 +194,11 @@ export const ExplorerContainer = () => {
         });
     }, [user, currDir, dispatch]);
 
+    const onDeleteFile = useCallback(() => {
+        console.log('delete file');
+    }, []);
+
+
     useEffect(() => {
         dispatch(getDirList({userEmail: user.email, currDir}));
         return (() => {
@@ -204,6 +210,7 @@ export const ExplorerContainer = () => {
         <>
             <Explorer 
                 ctxRef={ctxRef} 
+                attrRef={attrRef}
                 loading={loading} 
                 fileList={fileList}
                 currDir={currDir} 
@@ -218,6 +225,8 @@ export const ExplorerContainer = () => {
                 onChangeTargetName={onChangeTargetName}
                 onDownloadFile={onDownloadFile}
                 onUploadFile={onUploadFile}
+                onDeleteFile={onDeleteFile}
+                
             />
 
             { (modalOption.show && modalOption.type === 'createDir') && 

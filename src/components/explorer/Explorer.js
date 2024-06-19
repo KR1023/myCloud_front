@@ -18,7 +18,8 @@ const Explorer = ({
         currFileAttr,
         onChangeTargetName,
         onDownloadFile,
-        onUploadFile
+        onUploadFile,
+        onDeleteFile
         }) => {
     
     return(
@@ -95,14 +96,15 @@ const Explorer = ({
                         currFileAttr &&
                         <div className="file_container">
                             <p>이름 : {currFileAttr.filename}</p>
-                            <p>크기 : {returnFileSize(currFileAttr.size)}</p>
+                            {   currFileAttr.size !== 0 &&
+                                <p>크기 : {returnFileSize(currFileAttr.size)}</p>
+                            }
                             <p>생성일 : {new Date(currFileAttr.birthtime).toLocaleString()}</p>
                             <p>변경일 : {new Date(currFileAttr.ctime).toLocaleString()}</p>
                         </div>
                     }
                 </div>
             </div>
-            
         </div>
     );
 };
