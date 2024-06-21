@@ -9,11 +9,11 @@ import { useEffect } from 'react';
 const LoginForm = ({ onChange, onSubmit, loginErr, errMsg, onConfirm, onChangeCheckbox}) => {
 
     const toGoogle = () => {
-        window.open('http://localhost:4000/auth/google/', "_self");
+        window.open(`http://${process.env.REACT_APP_BACKEND_ADDR}/auth/google/`, "_self");
     };
 
     const toKakao = () => {
-        window.open('http://localhost:4000/auth/kakao/', "_self");
+        window.open(`http://${process.env.REACT_APP_BACKEND_ADDR}/auth/kakao/`, "_self");
     };
 
     return(
