@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import QuillEditor from "../../components/common/QuillEditor";
 import { changeField, initialize } from "../../modules/memo/write";
 import { useEffect, useCallback} from 'react';
