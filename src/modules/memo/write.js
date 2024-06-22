@@ -26,12 +26,11 @@ export const updateMemo = createAction(UPDATE_MEMO, ({ memoId, title, body, user
 }));
 
 function* createMemoSaga(action){
-    console.log(action.payload);
     try{
         const response = yield call(memoAPI.createMemo, action.payload);
         if(response.status === 201){
             yield put(getMemoSuccess(response.data));
-            yield put(memoList(action.payload.userEmail));
+            yield put(memoList(action.payload));
         }
 
     }catch(e){
@@ -44,7 +43,7 @@ function* updateMemoSaga(action){
         const response = yield call(memoAPI.updateMemo, action.payload);
         if(response.status === 200){
             yield put(getMemoSuccess(response.data));
-            yield put(memoList(action.payload.userEmail));
+            yield put(memoList(action.payload));
         }
     }catch(e){
         console.error(e);

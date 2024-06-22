@@ -60,13 +60,15 @@ const PhotoContainer = () => {
             
             const formData = new FormData();
             formData.append('userEmail', user.email);
-            const imgReg = /^image\/(png||jpg||jpeg)$/g;
+            
 
             for(const file of files){
+                const imgReg = /^image\/(png||jpg||jpeg)$/g;    
                 const type = file.type;
-                if(imgReg.test(type))
+                if(imgReg.test(type)){
+                    console.log('pass');
                     formData.append('photo', file);
-                else{
+                }else if(!imgReg.test(type)){
                     setModalOption({show: true, message: '이미지 파일만 업로드해 주세요.'});
                     return;
                 }

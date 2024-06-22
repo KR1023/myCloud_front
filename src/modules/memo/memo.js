@@ -45,7 +45,7 @@ function* deleteMemoSaga(action){
     try{
         const response = yield call(memoAPI.deleteMemo, action.payload);
         if(response.status === 200){
-            yield put(memoList(action.payload.userEmail));
+            yield put(memoList(action.payload));
             yield put(initMemo());
         }
     }catch(e){
