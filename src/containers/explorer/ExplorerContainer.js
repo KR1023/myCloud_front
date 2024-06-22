@@ -140,7 +140,7 @@ export const ExplorerContainer = () => {
     const onDownloadFile = useCallback(async () => {
         try{
             // const response = await photoAPI.downloadPhoto(currPhoto.photo_id);
-            const response = await fetch(`http://localhost:4000/file/download`, {
+            const response = await fetch(`http://${process.env.REACT_APP_BACKEND_ADDR}/file/download`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

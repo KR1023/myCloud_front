@@ -66,7 +66,6 @@ const PhotoContainer = () => {
                 const imgReg = /^image\/(png||jpg||jpeg)$/g;    
                 const type = file.type;
                 if(imgReg.test(type)){
-                    console.log('pass');
                     formData.append('photo', file);
                 }else if(!imgReg.test(type)){
                     setModalOption({show: true, message: '이미지 파일만 업로드해 주세요.'});
@@ -121,7 +120,7 @@ const PhotoContainer = () => {
     const downloadAPhoto = useCallback(async currPhoto => {
         try{
             // const response = await photoAPI.downloadPhoto(currPhoto.photo_id);
-            const response = await fetch(`http://localhost:4000/photo/download/${currPhoto.photo_id}`);
+            const response = await fetch(`http://${process.env.REACT_APP_BACKEND_ADDR}/photo/download/${currPhoto.photo_id}`);
             const file = await response.blob();
             const downloadUrl = window.URL.createObjectURL(file);
 
@@ -146,7 +145,7 @@ const PhotoContainer = () => {
         }
 
         try{
-            const response = await fetch(`http://localhost:4000/photo/download/photos`, {
+            const response = await fetch(`http://${process.env.REACT_APP_BACKEND_ADDR}/photo/download/photos`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
