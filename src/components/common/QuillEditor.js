@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 const QuillWrapper = styled.div`
     position: absolute;
-    height: 82%;
+    height: calc(100% - 180px);
     width: 95%;
     z-index: 30;
 `;

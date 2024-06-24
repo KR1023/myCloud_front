@@ -252,7 +252,7 @@
 
                 .viewer_content{
                     width: 100%;
-                    height: 82%;
+                    height: calc(100% - 140px);
                     box-sizing: border-box;
                     margin-top: 20px;
                     padding: 20px;
