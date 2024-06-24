@@ -93,11 +93,22 @@ const LoginContainer = () => {
     useEffect(() => {
         const checkbox = document.getElementById('save_id');
         const cookie = document.cookie;
+
         if(cookie && cookie.length > 14){
             checkbox.checked = true;
-            const cookieLength = cookie.length; 
-            const userEmail = cookie.substring(12, cookieLength);
 
+            const idxOfKey = cookie.indexOf('saved_email=');
+            const substr = cookie.substring(idxOfKey);
+            const firstDel = substr.indexOf(';');
+
+            let userEmail = '';
+
+            if(firstDel === -1){
+                userEmail = substr.substring(12);
+            }else{
+                userEmail = substr.substring(12, firstDel);
+            }
+            
             document.getElementById('login_id').value = userEmail;
             dispatch(changeField({form: 'login', key: 'email', value: userEmail}));
         }
