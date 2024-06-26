@@ -1,8 +1,8 @@
 import '../css/explorer/Explorer.scss';
-import folder from '../../images/explorer/explorer_folder_2.png';
 import folderTop from '../../images/explorer/explorer_folder_top.png';
 import iconTxt from '../../images/explorer/icon_txt.png';
 import returnFileSize from '../../lib/returnFileSize';
+import { returnFileIcon } from '../../lib/returnFileIcon';
 
 const Explorer = ({
         ctxRef, 
@@ -26,8 +26,8 @@ const Explorer = ({
         <div className="workspace_explorer" onClick={closeContextMenu}>
             <div className="explorer_header">
                 <div className="explorer_search">
-                    <input maxLength={30} />
-                    <button className="search_file"></button>
+                    {/* <input maxLength={30} />
+                    <button className="search_file"></button> */}
                     <button className="to_top" onClick={toTop}></button>
                     <div className="curr_dir">
                         <input value={`${currDir !== '/' ? currDir.substring(1) : currDir}`} disabled={true} />
@@ -62,15 +62,7 @@ const Explorer = ({
                     {   (!loading && fileList) &&
                         fileList.map(file => (
                             <div className="file_el" key={file.element} onClick={(e) => {onClickFile(e, file)}} onContextMenu={(e) => showContextMenu(e, file)}>
-                                {   file.isDir && 
-                                    <img src={folder} alt="sample_img" />
-                                }
-                                {   (!file.isDir && file.ext === '.txt') &&
-                                        <img src={iconTxt} alt="sample_img" />
-                                }
-                                {   (!file.isDir && file.ext === '.mp3') &&
-                                        <img src={iconTxt} alt="sample_img" />
-                                }
+                                <img src={returnFileIcon(file)} alt={file.element} />
                                 <span className="file_name">{file.element}</span>
                             </div>
                         )).sort((el) => {
