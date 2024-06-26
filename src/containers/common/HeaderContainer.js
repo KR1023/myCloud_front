@@ -6,14 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { sessionCheck } from "../../modules/auth/auth";
 
 const HeaderContainer = ({setWType}) => {
-
-    /*
-    window.addEventListener("beforeunload", e => {
-        localStorage.removeItem("user");
-        dispatch(sessionCheck(false));
-    })
-    */
-   
     const history = useNavigate();
     const dispatch = useDispatch();
 
@@ -33,7 +25,8 @@ const HeaderContainer = ({setWType}) => {
 
     const onLogout = (() => {
         if(user){
-            setWType(null);
+            if(setWType)
+                setWType(null);
             dispatch(logout());
         }
     });
