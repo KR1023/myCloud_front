@@ -58,6 +58,7 @@ const PhotoContainer = () => {
         fileInput.addEventListener('change', async() => {
             const files = fileInput.files;
             
+            console.log(files);
             const formData = new FormData();
             formData.append('userEmail', user.email);
             

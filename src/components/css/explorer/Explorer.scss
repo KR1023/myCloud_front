@@ -182,6 +182,7 @@
                 .file_name{
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    white-space: nowrap;
                     font-family: 'NanumSquareRoundBold';
                     text-align: center;
                     &.checked{
@@ -308,6 +309,4 @@
             }
         }
     }
-
-    
 }

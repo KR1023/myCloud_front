@@ -157,15 +157,18 @@ const Photo = ({
                     { currPhoto && 
                         <div>
                             <div className="image_container">
-                            <img src={servicePath(currPhoto.path)} alt={currPhoto.originalName} />
+                                <img src={servicePath(currPhoto.path)} alt={currPhoto.originalName} />
                             </div>
-                            <p>파일 이름 : <span>{currPhoto.originalName}</span></p>
-                            <p>파일 크기 : <span>{returnFileSize(currPhoto.size)}</span></p>
-                            <p>업로드 시간 : <span>{new Date(currPhoto.uploadedDate).toLocaleString()}</span></p>
-                            <p>
+                            <div className="image_name attr">파일 이름 : 
+                                <span>{currPhoto.originalName}</span>
+                                <div className="image_name tooltip"><div>{currPhoto.originalName}</div></div>
+                            </div>
+                            <div className="attr">파일 크기 : <span>{returnFileSize(currPhoto.size)}</span></div>
+                            <div className="attr">업로드 시간 : <span>{new Date(currPhoto.uploadedDate).toLocaleString()}</span></div>
+                            <div className="attr">
                                 <button className="button_download" onClick={e => downloadAPhoto(currPhoto)}></button>
                                 <button className="button_delete" onClick={e => deleteAPhoto(currPhoto)}></button>
-                            </p>
+                            </div>
                         </div>
                     }
                     
