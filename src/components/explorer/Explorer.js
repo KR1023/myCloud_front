@@ -95,7 +95,6 @@ const Explorer = ({
                             }
                             <div>생성일 : {new Date(currFileAttr.birthtime).toLocaleString()}</div>
                             <div>변경일 : {new Date(currFileAttr.ctime).toLocaleString()}</div>
-                            
                         </div>
                     }
                 </div>

@@ -80,19 +80,19 @@ export const ExplorerContainer = () => {
         e.preventDefault();
         setCurrFile(file);
 
-        let targetRect = null;
-        let targetTop = '0';
-        let targetLeft = '0';
+        // let targetRect = null;
+        // let targetTop = '0';
+        // let targetLeft = '0';
 
         if(e.target.tagName === 'DIV'){
-            targetRect = e.target.getBoundingClientRect();
-            targetTop = targetRect.top;
-            targetLeft = targetRect.left;
+            // targetRect = e.target.getBoundingClientRect();
+            // targetTop = targetRect.top;
+            // targetLeft = targetRect.left;
 
         }else{
-            targetRect = e.target.parentNode.getBoundingClientRect();
-            targetTop = targetRect.top;
-            targetLeft = targetRect.left;
+            // targetRect = e.target.parentNode.getBoundingClientRect();
+            // targetTop = targetRect.top;
+            // targetLeft = targetRect.left;
         }
 
         if(file.isDir){
@@ -102,9 +102,10 @@ export const ExplorerContainer = () => {
             ctxRef.current.childNodes[2].style.display = 'block';
             ctxRef.current.style.height = '120px';
         }
-        
-        ctxRef.current.style.top = `${targetTop-80}px`;
-        ctxRef.current.style.left = `${targetLeft-60}px`;
+        // ctxRef.current.style.top = `${targetTop}px`;
+        // ctxRef.current.style.left = `${targetLeft}px`;
+        ctxRef.current.style.top = `${e.clientY}px`;
+        ctxRef.current.style.left = `${e.clientX}px`;
         
         ctxRef.current.style.visibility = 'visible';
     }, []);
