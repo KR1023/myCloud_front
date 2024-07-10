@@ -58,9 +58,8 @@ const LoginContainer = () => {
             date.setDate(date.getDate() + 7);
             document.cookie = `saved_email=${email};expires=${date.toGMTString()};path=/`;
         }else if(!checked){
-            console.log('false');
             const date = new Date();
-            document.cookie = `saved_email='';expires=${date}`;
+            document.cookie = `saved_email=;expires=${date}`;
         }
     }
 
@@ -95,22 +94,23 @@ const LoginContainer = () => {
         const cookie = document.cookie;
 
         if(cookie && cookie.length > 14){
-            checkbox.checked = true;
-
             const idxOfKey = cookie.indexOf('saved_email=');
-            const substr = cookie.substring(idxOfKey);
-            const firstDel = substr.indexOf(';');
 
-            let userEmail = '';
+            if(idxOfKey !== -1){
+                checkbox.checked = true;
+                const substr = cookie.substring(idxOfKey);
+                const firstDel = substr.indexOf(';');
 
-            if(firstDel === -1){
-                userEmail = substr.substring(12);
-            }else{
-                userEmail = substr.substring(12, firstDel);
+                let userEmail = null;
+
+                if(firstDel === -1){
+                    userEmail = substr.substring(12);
+                }else{
+                    userEmail = substr.substring(12, firstDel);
+                }
+                document.getElementById('login_id').value = userEmail;
+                dispatch(changeField({form: 'login', key: 'email', value: userEmail}));
             }
-            
-            document.getElementById('login_id').value = userEmail;
-            dispatch(changeField({form: 'login', key: 'email', value: userEmail}));
         }
 
         getUser();
